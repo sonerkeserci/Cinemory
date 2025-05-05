@@ -17,5 +17,8 @@ namespace Cinemory.Models
         public ICollection<MovieGenreConnection> Genres { get; set; } //navigation,MovieGenreConnection one-to-many 
         public ICollection<Review> Reviews { get; set; } //navigation, Review one-to-many
         public ICollection<Rating> Ratings { get; set; } //navigation, Rating one-to-many
+
+        public ICollection<FavoriteMovie> FavoritedByUsers { get; set; }
+
     }
 }
