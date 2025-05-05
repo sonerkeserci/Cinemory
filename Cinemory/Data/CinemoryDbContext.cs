@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cinemory.Data
 {
-    public class CinemoryDbContext:DbContext
+    public class CinemoryDbContext : DbContext
     {
         public CinemoryDbContext(DbContextOptions<CinemoryDbContext> options) : base(options) { }
 
@@ -30,7 +30,7 @@ namespace Cinemory.Data
                 .HasKey(fm => new { fm.UserId, fm.MovieId });
 
             modelBuilder.Entity<MovieActorConnection>()
-        .HasKey(mac => new { mac.MovieId, mac.ActorId });
+                .HasKey(mac => new { mac.MovieId, mac.ActorId });
 
             modelBuilder.Entity<MovieGenreConnection>()
                 .HasKey(mgc => new { mgc.MovieId, mgc.GenreId });
