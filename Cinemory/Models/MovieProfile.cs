@@ -11,7 +11,7 @@ namespace Cinemory.Models
         public string? TrailerUrl { get; set; }
 
         public int MovieId { get; set; } //foreign key, relates to Movie
-        public Movie Movie { get; set; } //navigation, reference to Movie
+        public Movie? Movie { get; set; } //navigation, reference to Movie
 
 
 

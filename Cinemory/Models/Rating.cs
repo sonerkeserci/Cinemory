@@ -6,9 +6,9 @@
         public int Score { get; set; } //a value from 1 to 10
 
         public int MovieId { get; set; } //foreign key, Movie related
-        public Movie Movie { get; set; } //navigation
+        public Movie? Movie { get; set; } //navigation
 
         public int UserId { get; set; } //foreign key, User related
-        public User User { get; set; } //nav
+        public User? User { get; set; } //nav
     }
 }

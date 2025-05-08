@@ -4,8 +4,8 @@
     {
 
         public int Id { get; set; } //primary key
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public ICollection<MovieGenreConnection> Movies { get; set; } //navigation, many-to-many with Movie via MovieGenreConnection class
+        public ICollection<MovieGenreConnection>? Movies { get; set; } //navigation, many-to-many with Movie via MovieGenreConnection class
     }
 }
