@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cinemory.Data;
 using Cinemory.Models;
+using Cinemory.Models.ViewModels;
 
 namespace Cinemory.Controllers
 {
@@ -19,14 +21,14 @@ namespace Cinemory.Controllers
             _context = context;
         }
 
-        // GET: Movies
+        // GET
         public async Task<IActionResult> Index()
         {
             var cinemoryDbContext = _context.Movies.Include(m => m.Director);
             return View(await cinemoryDbContext.ToListAsync());
         }
 
-        // GET: Movies/Details/5
+        // GET
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,7 +38,12 @@ namespace Cinemory.Controllers
 
             var movie = await _context.Movies
                 .Include(m => m.Director)
+                .Include(m => m.Genres)
+                    .ThenInclude(mg => mg.Genre)
+                .Include(m => m.Actors)
+                    .ThenInclude(ma => ma.Actor)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (movie == null)
             {
                 return NotFound();
@@ -45,31 +52,53 @@ namespace Cinemory.Controllers
             return View(movie);
         }
 
-        // GET: Movies/Create
+        // GET:Create
         public IActionResult Create()
         {
-            ViewData["DirectorId"] = new SelectList(_context.Directors, "Id", "Id");
-            return View();
-        }
+            var model = new MovieCreateViewModel
+            {
+                Directors = _context.Directors
+            .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName }).ToList(),
 
-        // POST: Movies/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+                Genres = _context.Genres
+            .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }).ToList(),
+
+                Actors = _context.Actors
+            .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FullName }).ToList()
+            };
+
+            return View(model);
+        }
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Year,DirectorId")] Movie movie)
+        public async Task<IActionResult> Create(MovieCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Dropdown 
+                model.Directors = _context.Directors.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName }).ToList();
+                model.Genres = _context.Genres.Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }).ToList();
+                model.Actors = _context.Actors.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FullName }).ToList();
+                return View(model);
             }
-            ViewData["DirectorId"] = new SelectList(_context.Directors, "Id", "Id", movie.DirectorId);
-            return View(movie);
+
+            var movie = new Movie
+            {
+                Name = model.Name,
+                Year = model.Year,
+                DirectorId = model.DirectorId,
+                Genres = model.SelectedGenreIds.Select(id => new MovieGenreConnection { GenreId = id }).ToList(),
+                Actors = model.SelectedActorIds.Select(id => new MovieActorConnection { ActorId = id }).ToList()
+            };
+
+            _context.Movies.Add(movie);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Movies/Edit/5
+        // GET:Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,10 +114,7 @@ namespace Cinemory.Controllers
             ViewData["DirectorId"] = new SelectList(_context.Directors, "Id", "Id", movie.DirectorId);
             return View(movie);
         }
-
-        // POST: Movies/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Year,DirectorId")] Movie movie)
@@ -122,7 +148,7 @@ namespace Cinemory.Controllers
             return View(movie);
         }
 
-        // GET: Movies/Delete/5
+        // GET: Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,7 +167,7 @@ namespace Cinemory.Controllers
             return View(movie);
         }
 
-        // POST: Movies/Delete/5
+        // POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -1,4 +1,5 @@
-﻿@model Cinemory.Models.Movie
+﻿
+@model Cinemory.Models.Movie
 
 @{
     ViewData["Title"] = "Details";
@@ -10,26 +11,53 @@
     <h4>Movie</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Year)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Year)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Director)
+
+        <dt class="col-sm-2">
+            Director
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Director.Id)
+        <dd class="col-sm-10">
+            @Model.Director?.FullName
+        </dd>
+
+        <dt class="col-sm-2">
+            Genres
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var genre in Model.Genres)
+                {
+                    <li>@genre.Genre?.Name</li>
+                }
+            </ul>
+        </dd>
+
+        <dt class="col-sm-2">
+            Actors
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var actor in Model.Actors)
+                {
+                    <li>@actor.Actor?.FullName</li>
+                }
+            </ul>
         </dd>
     </dl>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -14,8 +14,9 @@ namespace Cinemory.Models
 
 
         public MovieProfile? Profile { get; set; } //navigation, MovieProfile one-to-one 
-        public ICollection<MovieGenreConnection>? Genres { get; set; } //navigation,MovieGenreConnection one-to-many 
-        public ICollection<MovieActorConnection>? Actors { get; set; } //navigation,MovieGenreConnection one-to-many 
+        public ICollection<MovieGenreConnection> Genres { get; set; } = new List<MovieGenreConnection>();
+        public ICollection<MovieActorConnection> Actors { get; set; } = new List<MovieActorConnection>();
+
 
         public ICollection<Review>? Reviews { get; set; } 
         public ICollection<Rating>? Ratings { get; set; } 
