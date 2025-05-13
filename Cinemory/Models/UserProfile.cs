@@ -10,7 +10,7 @@ namespace Cinemory.Models
         public string? AvatarUrl { get; set; }
         public DateTime JoinDate { get; set; }
 
-        public int UserId { get; set; } //foreign key, User related, burada property ismini UserId yazdığımız için Entity Framework otomatik anlıyor bunun foreign key olduğunu abi japonlar yapmış
+        public int UserId { get; set; } //foreign key, User related 
         public User? User { get; set; }  //navigation, reference to User, one to one relation
 
         //
