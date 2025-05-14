@@ -1,6 +1,7 @@
 ﻿using Cinemory.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Cinemory.Data
 {
     public class CinemoryDbContext : DbContext
