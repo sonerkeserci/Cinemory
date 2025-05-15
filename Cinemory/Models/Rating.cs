@@ -8,7 +8,7 @@
         public int MovieId { get; set; } //foreign key, Movie related
         public Movie? Movie { get; set; } //navigation
 
-        public int UserId { get; set; } //foreign key, User related
-        public User? User { get; set; } //nav
+        public required string UserId { get; set; } //foreign key, User related
+        public AppUser? User { get; set; } //nav
     }
 }

@@ -10,8 +10,8 @@ namespace Cinemory.Models
         public string? AvatarUrl { get; set; }
         public DateTime JoinDate { get; set; }
 
-        public int UserId { get; set; } //foreign key, User related 
-        public User? User { get; set; }  //navigation, reference to User, one to one relation
+        public required string UserId { get; set; } //foreign key, User related 
+        public AppUser? User { get; set; }  //navigation, reference to User, one to one relation
 
         //
 

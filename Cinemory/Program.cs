@@ -1,10 +1,16 @@
 using Cinemory.Data;
+using Cinemory.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<CinemoryDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddDbContext<CinemoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

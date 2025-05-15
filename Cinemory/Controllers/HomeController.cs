@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Cinemory.Models;
 
 
 namespace Cinemory.Controllers
