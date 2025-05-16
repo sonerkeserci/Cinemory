@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Welcome to Cinemory";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* açık gri */
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .landing-wrapper {
+        margin: 40px 60px;
+        max-width: 400px;
+    }
+
+    .app-title {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0;
+    }
+
+    .tagline {
+        font-style: italic;
+        color: #888;
+        margin-bottom: 20px;
+    }
+
+    .auth-buttons a {
+        display: inline-block;
+        margin-right: 10px;
+        margin-top: 10px;
+        padding: 8px 18px;
+        text-decoration: none;
+        border-radius: 4px;
+        border: 1px solid #999;
+        background-color: white;
+        color: #333;
+        transition: background-color 0.2s;
+    }
+
+        .auth-buttons a:hover {
+            background-color: #ddd;
+        }
+
+    .info-note {
+        margin-top: 20px;
+        color: #999;
+        font-size: 0.9em;
+    }
+</style>
+
+<div class="landing-wrapper">
+    <h1 class="app-title">Cinemory</h1>
+    <p class="tagline">Rate. Remember. Rediscover.</p>
+
+    <div class="auth-buttons">
+        <a asp-controller="Account" asp-action="Login">🔑 Login</a>
+        <a asp-controller="Account" asp-action="Register">📝 Register</a>
+    </div>
+
+    <p class="info-note">
+        Log in or sign up to access your feed.
+    </p>
+</div>
