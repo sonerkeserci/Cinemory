@@ -33,7 +33,7 @@ namespace Cinemory.Controllers
             return RedirectToAction("ActivityFeed", "UserFeed"); // Admin değilse, normal kullanıcı feed sayfası
         }
 
-
+        // Github Test
         public IActionResult Landing()
         {
             return View();
