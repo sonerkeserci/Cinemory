@@ -11,7 +11,8 @@
 @{
     var showLayoutParts = ViewBag.ShowLayoutParts ?? true;
 }
-<body style="margin: 0; padding: 0; background-color: #d3d6db; color: #303841;">
+<body class="@ViewBag.BodyClass" style="margin: 0; padding: 0; color: #303841;">
+
 
     @if (showLayoutParts)
     {
@@ -37,11 +38,21 @@
         </header>
     }
 
-    <div class="container-fluid p-3">
-        <main role="main" class="pb-3">
+    @if (ViewBag.BodyClass == "landing-page")
+    {
+        <main role="main">
             @RenderBody()
         </main>
-    </div>
+    }
+    else
+    {
+        <div class="container-fluid p-3">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+
 
     @if (showLayoutParts)
     {
