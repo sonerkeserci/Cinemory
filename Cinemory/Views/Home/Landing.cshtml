@@ -7,10 +7,10 @@
 <div class="navbar">
 	<h1>Cinemory</h1>
 	<ul>
-		<li><a asp-controller="Account" asp-action="Login">SIGN IN</a></li>
+		<li><a asp-controller="Accounts" asp-action="Login">SIGN IN</a></li>
 		<li><a href="javascript:void(0);" onclick="loadRegisterForm()">Register</a></li>
 		<li><a asp-controller="Movies" asp-action="Index">FILMS</a></li>
-		<li><a asp-controller="Users" asp-action="Index">MEMBERS</a></li>
+		<li><a asp-controller="Accounts" asp-action="Members">MEMBERS</a></li>
 	</ul>
 </div>
 
@@ -129,6 +129,50 @@
 		max-width: 280px;
 		text-align: right;
 	}
+
+	#registerModal {
+		background: #111;
+		color: #f0f0f0;
+		border-radius: 10px;
+		padding: 20px;
+		width: 400px;
+		display: none;
+		position: fixed;
+		top: 10%;
+		right: 5%;
+		z-index: 9999;
+		box-shadow: 0 0 15px rgba(0,0,0,0.6);
+		font-family: sans-serif;
+	}
+
+	.form-group {
+		margin-bottom: 15px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.form-control {
+		padding: 8px;
+		font-size: 1rem;
+		border-radius: 4px;
+		border: 1px solid #ccc;
+	}
+
+	.btn {
+		padding: 10px 20px;
+		font-size: 1rem;
+		background-color: #dabbb4;
+		border: none;
+		color: #111;
+		cursor: pointer;
+		border-radius: 5px;
+		margin-top: 10px;
+		transition: background-color 0.3s ease;
+	}
+
+		.btn:hover {
+			background-color: #cba997;
+		}
 </style>
 
 
@@ -141,9 +185,10 @@
 
 
 
+
 <script>
 	function loadRegisterForm() {
-		fetch("/Account/RegisterPartial")
+		fetch("/Accounts/RegisterPartial")
 			.then(res => res.text())
 			.then(html => {
 				document.getElementById("registerModalContent").innerHTML = html;
@@ -156,24 +201,29 @@
 		var form = document.getElementById("registerForm");
 		var formData = new FormData(form);
 
-		fetch("/Account/Register", {
+		fetch("/Accounts/Register", {
 			method: "POST",
 			body: formData
 		})
 		.then(res => {
-			if (res.headers.get("content-type")?.includes("application/json")) {
-				return res.json();
+			const contentType = res.headers.get("content-type");
+			if (contentType && contentType.includes("application/json")) {
+				return res.json(); // başarılı kayıt
 			} else {
-				return res.text();
+				return res.text(); // form hatalı, partialView dönecek
 			}
 		})
 		.then(data => {
 			if (data.success) {
-				window.location.href = "/Movie/Index";
+				window.location.href = "/Movies/Index";
 			} else if (typeof data === "string") {
 				document.getElementById("registerModalContent").innerHTML = data;
 			}
+		})
+		.catch(err => {
+			console.error("Form posting error:", err);
 		});
 	}
+	
 </script>
 

@@ -2,26 +2,45 @@
 @using Cinemory.Models.ViewModels
 @model RegisterViewModel
 
-<form id="registerForm" asp-action="Register" asp-controller="Account" method="post" onsubmit="submitRegisterForm(event)">
-    <label asp-for="UserName"></label>
-    <input asp-for="UserName" />
-    <span asp-validation-for="UserName"></span>
 
-    <label asp-for="Email"></label>
-    <input asp-for="Email" />
-    <span asp-validation-for="Email"></span>
+<form id="registerForm" asp-action="Register" asp-controller="Accounts" method="post" onsubmit="submitRegisterForm(event)">
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
 
-    <label asp-for="Password"></label>
-    <input asp-for="Password" type="password" />
-    <span asp-validation-for="Password"></span>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
 
-    <label asp-for="ConfirmPassword"></label>
-    <input asp-for="ConfirmPassword" type="password" />
-    <span asp-validation-for="ConfirmPassword"></span>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
 
-    <button type="submit">Register</button>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
 </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger" style="margin-bottom:10px;">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@error.ErrorMessage</div>
+        }
+    </div>
 }

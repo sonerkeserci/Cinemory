@@ -59,7 +59,7 @@ namespace Cinemory.Controllers
                 
                 await _signInManager.SignInAsync(user, isPersistent: false);  // otomatik sign-in işi
 
-                return RedirectToAction("Index", "Movies");
+                return Json(new { success = true });
             }
 
 
@@ -68,7 +68,15 @@ namespace Cinemory.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            return View(model);
+            return PartialView("_RegisterPartial", model); 
+
+        }
+
+        [HttpGet]
+        public IActionResult Members()
+        {
+            var users = _userManager.Users.ToList(); // IQueryable → ToList ile çektik
+            return View(users);
         }
 
 
