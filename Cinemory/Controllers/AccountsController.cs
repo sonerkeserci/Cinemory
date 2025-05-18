@@ -33,7 +33,7 @@ namespace Cinemory.Controllers
             if (!ModelState.IsValid)
             {
 
-                return PartialView("_RegisterPartial", model); 
+                return PartialView("_RegisterPartial", model);
             }
 
             var user = new AppUser
@@ -46,7 +46,7 @@ namespace Cinemory.Controllers
 
             if (result.Succeeded)
             {
-                
+
                 var profile = new UserProfile   // UserProfile oluşturma işi
                 {
                     UserId = user.Id,
@@ -56,7 +56,7 @@ namespace Cinemory.Controllers
                 _context.UserProfiles.Add(profile);
                 await _context.SaveChangesAsync();
 
-                
+
                 await _signInManager.SignInAsync(user, isPersistent: false);  // otomatik sign-in işi
 
                 return Json(new { success = true });
@@ -68,17 +68,50 @@ namespace Cinemory.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            return PartialView("_RegisterPartial", model); 
+            return PartialView("_RegisterPartial", model);
 
         }
 
         [HttpGet]
         public IActionResult Members()
         {
-            var users = _userManager.Users.ToList(); 
+            var users = _userManager.Users.ToList();
             return View(users);
         }
 
+        // GET: Login
+        [HttpGet]
+        public IActionResult LoginPartial()
+        {
+            return PartialView("_LoginPartial", new LoginViewModel());
+        }
+
+        // POST: Login
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model) //getten gelen model içinde sadece user ve password var
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_LoginPartial", model);
+            }
+
+            var user = await _userManager.FindByNameAsync(model.UserName);   //öyle bir user yoksa
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid username or password.");
+                return PartialView("_LoginPartial", model);
+            }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: false); //varsa password kontrolü
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return Json(new { success = true });
+            }
+
+            ModelState.AddModelError("", "Invalid username or password.");
+            return PartialView("_LoginPartial", model);
+        }
 
     }
 }

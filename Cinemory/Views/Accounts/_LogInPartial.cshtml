@@ -1,20 +1,14 @@
-﻿
-@using Cinemory.Models.ViewModels
-@model RegisterViewModel
+﻿@using Cinemory.Models.ViewModels
+@model LoginViewModel
 
 
-<form id="registerForm" asp-action="Register" asp-controller="Accounts" method="post" onsubmit="submitRegisterForm(event)">
+<form id="loginForm" asp-action="Login" asp-controller="Accounts" method="post" onsubmit="submitLoginForm(event)">
     <div class="form-group">
         <label asp-for="UserName"></label>
         <input asp-for="UserName" class="form-control" />
         <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
 
     <div class="form-group">
         <label asp-for="Password"></label>
@@ -22,13 +16,8 @@
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" class="form-control" />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
 
-    <button type="submit" class="btn btn-primary">REGISTER</button>
+    <button type="submit" class="btn btn-primary">SIGN IN</button>
 </form>
 
 @section Scripts {

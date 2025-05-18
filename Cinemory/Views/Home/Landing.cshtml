@@ -7,8 +7,8 @@
 <div class="navbar">
 	<h1>Cinemory</h1>
 	<ul>
-		<li><a asp-controller="Accounts" asp-action="Login">SIGN IN</a></li>
-		<li><a href="javascript:void(0);" onclick="loadRegisterForm()">Register</a></li>
+		<li><a href="javascript:void(0);" onclick="loadLoginForm()">SIGN IN</a></li>
+		<li><a href="javascript:void(0);" onclick="loadRegisterForm()">REGISTER</a></li>
 		<li><a asp-controller="Movies" asp-action="Index">FILMS</a></li>
 		<li><a asp-controller="Accounts" asp-action="Members">MEMBERS</a></li>
 	</ul>
@@ -27,6 +27,8 @@
 
 
 <style>
+
+
 	body.landing-page {
 		margin: 0;
 		padding: 0;
@@ -130,9 +132,13 @@
 		text-align: right;
 	}
 
-	#registerModal {
+
+	/* Ortak modal kutusu stili yazdım belki başka yerde de kullanılır bilmiyorum artık */
+	.modal-box {
+		animation: slideIn 0.4s ease-out;
 		background: #111;
-		color: #f0f0f0;
+		background-color: rgba(0, 0, 0, 0.8);
+		color: #add2c9;
 		border-radius: 10px;
 		padding: 20px;
 		width: 400px;
@@ -141,10 +147,17 @@
 		top: 10%;
 		right: 5%;
 		z-index: 9999;
-		box-shadow: 0 0 15px rgba(0,0,0,0.6);
-		font-family: sans-serif;
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+		font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
+		font-weight: 400;
 	}
 
+	.btn {
+		font-family: inherit;
+		font-weight: 550;
+	}
+
+	
 	.form-group {
 		margin-bottom: 15px;
 		display: flex;
@@ -161,7 +174,7 @@
 	.btn {
 		padding: 10px 20px;
 		font-size: 1rem;
-		background-color: #dabbb4;
+		background-color: #72a898;
 		border: none;
 		color: #111;
 		cursor: pointer;
@@ -171,23 +184,34 @@
 	}
 
 		.btn:hover {
-			background-color: #cba997;
+			background-color: #2d6151;
 		}
 </style>
 
 
-<!-- MODAL -->
-<div id="registerModal" style="display:none; position:fixed; top:10%; right:5%; background:#111; padding:20px; border-radius:10px; z-index:1000; width:400px;">
+<!-- MODALssssss -->
+
+<div id="registerModal" class="modal-box">
 	<div id="registerModalContent">
-		<!-- Partial View işleri -->
+		<!-- Register PartialView buraya yüklenecek -->
+	</div>
+</div>
+
+<div id="loginModal" class="modal-box">
+	<div id="loginModalContent" >
+		<!-- Login PartialView buraya yüklenecek -->
 	</div>
 </div>
 
 
 
 
+
 <script>
+
+	//REGISTER FORMU
 	function loadRegisterForm() {
+
 		fetch("/Accounts/RegisterPartial")
 			.then(res => res.text())
 			.then(html => {
@@ -215,7 +239,7 @@
 		})
 		.then(data => {
 			if (data.success) {
-				window.location.href = "/Movies/Index";
+				window.location.href = "Accounts/UserFeed";
 			} else if (typeof data === "string") {
 				document.getElementById("registerModalContent").innerHTML = data;
 			}
@@ -224,6 +248,62 @@
 			console.error("Form posting error:", err);
 		});
 	}
-	
+
+	//SIGN IN FORMU
+
+	function loadLoginForm() {
+
+		fetch("/Accounts/LoginPartial")
+			.then(res => res.text())
+			.then(html => {
+				document.getElementById("loginModalContent").innerHTML = html;
+				document.getElementById("loginModal").style.display = "block";
+			});
+	}
+
+	function submitLoginForm(e) {
+		e.preventDefault();
+		var form = document.getElementById("loginForm");
+		var formData = new FormData(form);
+
+		fetch("/Accounts/Login", {
+			method: "POST",
+			body: formData
+		})
+		.then(res => {
+			const contentType = res.headers.get("content-type");
+			if (contentType && contentType.includes("application/json")) {
+				return res.json(); // giriş başarılı
+			} else {
+				return res.text(); // form hatalı, partial dönecek
+			}
+		})
+		.then(data => {
+			if (data.success) {
+				window.location.href = "Accounts/UserFeed"; // ya da "/" vs.
+			} else if (typeof data === "string") {
+				document.getElementById("loginModalContent").innerHTML = data;
+			}
+		})
+		.catch(err => {
+			console.error("Login posting error:", err);
+		});
+	}
+		// Her tıklamada kontrol et
+	document.addEventListener("click", function(event) {
+		const registerModal = document.getElementById("registerModal");
+		const loginModal = document.getElementById("loginModal");
+
+		// Eğer modal açık ve tıklanan şey modalın içinde değilse → kapat
+		if (registerModal.style.display === "block" && !registerModal.contains(event.target)) {
+			registerModal.style.display = "none";
+		}
+
+		if (loginModal.style.display === "block" && !loginModal.contains(event.target)) {
+			loginModal.style.display = "none";
+		}
+	});
+
+
 </script>
 
