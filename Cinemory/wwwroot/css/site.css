@@ -8,7 +8,7 @@ html {
   }
 }
 
-
+/*SLIDE-IN POP-UPS*/
 @keyframes slideIn {
     from {
         transform: translateX(100%);
