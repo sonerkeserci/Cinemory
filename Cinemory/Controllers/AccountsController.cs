@@ -75,7 +75,7 @@ namespace Cinemory.Controllers
         [HttpGet]
         public IActionResult Members()
         {
-            var users = _userManager.Users.ToList(); // IQueryable → ToList ile çektik
+            var users = _userManager.Users.ToList(); 
             return View(users);
         }
 
