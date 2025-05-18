@@ -4,6 +4,26 @@
 	ViewBag.ShowLayoutParts = false;
 }
 
+<div class="navbar">
+	<h1>Cinemory</h1>
+	<ul>
+		<li><a asp-controller="Account" asp-action="Login">SIGN IN</a></li>
+		<li><a href="javascript:void(0);" onclick="loadRegisterForm()">Register</a></li>
+		<li><a asp-controller="Movies" asp-action="Index">FILMS</a></li>
+		<li><a asp-controller="Users" asp-action="Index">MEMBERS</a></li>
+	</ul>
+</div>
+
+<div class="hero">
+	<div class="overlay">
+		<h2>Rate. Review. Remember.</h2>
+
+		<div class="quote">
+			“A book read by a thousand different people is a thousand different books.”<br>
+			― Andrei Tarkovsky
+		</div>
+	</div>
+</div>
 
 
 <style>
@@ -11,6 +31,7 @@
 		margin: 0;
 		padding: 0;
 		overflow-x: hidden;
+		background-color: #222831;
 	}
 
 		body.landing-page .navbar {
@@ -22,8 +43,8 @@
 			top: 0;
 			left: 0;
 			width: 100%;
-			background-color: rgba(0, 0, 0, 0.9);  
-			backdrop-filter: blur(2px);  
+			background-color: rgba(0, 0, 0, 0.8);
+			backdrop-filter: blur(2px);
 			z-index: 10;
 		}
 
@@ -31,7 +52,7 @@
 	.navbar h1 {
 		font-size: 1.85em;
 		letter-spacing: 1.7px;
-		color: #dabbb4;
+		color: #add2c9;
 		font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
 		font-weight: 800;
 	}
@@ -45,7 +66,7 @@
 	}
 
 		.navbar ul li a {
-			color: #dabbb4;
+			color: #add2c9;
 			font-weight: 600;
 			font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
 			text-decoration: none;
@@ -65,10 +86,11 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		height: 100vh;
-		width: 100vw; 
+		width: 100vw;
 		margin: 0;
 		padding: 0;
 		position: relative;
+		z-index: 1;
 	}
 
 	.overlay {
@@ -85,8 +107,9 @@
 
 		.overlay h2 {
 			font-size: 2.4rem;
+			font-weight: 600;
 			font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
-			color: #ffffff;
+			color: #add2c9;
 			letter-spacing: 2px;
 			margin-bottom: 300px;
 		}
@@ -108,23 +131,49 @@
 	}
 </style>
 
-<div class="navbar">
-	<h1>Cinemory</h1>
-	<ul>
-		<li><a asp-controller="Account" asp-action="Login">SIGN IN</a></li>
-		<li><a asp-controller="Account" asp-action="Register">REGISTER</a></li>
-		<li><a asp-controller="Movies" asp-action="Index">FILMS</a></li>
-		<li><a asp-controller="Users" asp-action="Index">MEMBERS</a></li>
-	</ul>
-</div>
 
-<div class="hero">
-	<div class="overlay">
-		<h2>Rate. Review. Remember.</h2>
-
-		<div class="quote">
-			“A book read by a thousand different people is a thousand different books.”<br>
-			― Andrei Tarkovsky
-		</div>
+<!-- MODAL -->
+<div id="registerModal" style="display:none; position:fixed; top:10%; right:5%; background:#111; padding:20px; border-radius:10px; z-index:1000; width:400px;">
+	<div id="registerModalContent">
+		<!-- Partial View işleri -->
 	</div>
 </div>
+
+
+
+<script>
+	function loadRegisterForm() {
+		fetch("/Account/RegisterPartial")
+			.then(res => res.text())
+			.then(html => {
+				document.getElementById("registerModalContent").innerHTML = html;
+				document.getElementById("registerModal").style.display = "block";
+			});
+	}
+
+	function submitRegisterForm(e) {
+		e.preventDefault();
+		var form = document.getElementById("registerForm");
+		var formData = new FormData(form);
+
+		fetch("/Account/Register", {
+			method: "POST",
+			body: formData
+		})
+		.then(res => {
+			if (res.headers.get("content-type")?.includes("application/json")) {
+				return res.json();
+			} else {
+				return res.text();
+			}
+		})
+		.then(data => {
+			if (data.success) {
+				window.location.href = "/Movie/Index";
+			} else if (typeof data === "string") {
+				document.getElementById("registerModalContent").innerHTML = data;
+			}
+		});
+	}
+</script>
+
