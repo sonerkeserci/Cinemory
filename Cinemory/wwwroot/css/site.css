@@ -8,6 +8,7 @@ html {
   }
 }
 
+
 /*SLIDE-IN POP-UPS*/
 @keyframes slideIn {
     from {
@@ -17,9 +18,11 @@ html {
 
     to {
         transform: translateX(0);
-        opacity: 1;
+        opacity: 2;
     }
 }
+
+
 
 .modal-box {
     animation: slideIn 0.4s ease-out;
