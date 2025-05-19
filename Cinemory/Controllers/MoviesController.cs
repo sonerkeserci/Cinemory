@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Cinemory.Data;
 using Cinemory.Models;
 using Cinemory.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinemory.Controllers
 {
@@ -53,6 +54,7 @@ namespace Cinemory.Controllers
         }
 
         // GET:Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var model = new MovieCreateViewModel
@@ -72,6 +74,7 @@ namespace Cinemory.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(MovieCreateViewModel model)
         {
             if (!ModelState.IsValid)
@@ -99,6 +102,7 @@ namespace Cinemory.Controllers
         }
 
         // GET:Edit
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -117,6 +121,7 @@ namespace Cinemory.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Year,DirectorId")] Movie movie)
         {
             if (id != movie.Id)
@@ -149,6 +154,7 @@ namespace Cinemory.Controllers
         }
 
         // GET: Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -170,6 +176,7 @@ namespace Cinemory.Controllers
         // POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var movie = await _context.Movies.FindAsync(id);

@@ -20,6 +20,12 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;
 });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Accounts/Login"; // modal deðil ama tanýmlý gibi dursun
+    options.AccessDeniedPath = "/Accounts/AccessDenied";
+});
+
 
 builder.Services.AddDbContext<CinemoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -51,6 +57,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     await SeedAdministrator.InitializeAsync(services);
 }
+
 
 
 app.Run();

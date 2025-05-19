@@ -17,6 +17,11 @@ namespace Cinemory.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
 
         // GET: Register    
         [HttpGet]
@@ -107,6 +112,7 @@ namespace Cinemory.Controllers
             if (result.Succeeded)
             {
 
+                await _signInManager.SignInAsync(user, isPersistent: false); // ✨ bu şart
                 string? redirectUrl;
 
                 if (await _userManager.IsInRoleAsync(user, "Admin"))
@@ -120,6 +126,18 @@ namespace Cinemory.Controllers
             ModelState.AddModelError("", "Invalid username or password.");
             return PartialView("_LoginPartial", model);
         }
+
+
+        [HttpGet]
+        public IActionResult Login(string? returnUrl = null)
+        {
+            return RedirectToAction("Landing", "Home"); // modal sistem burada
+        }
+
+
+
+
+
 
     }
 }
