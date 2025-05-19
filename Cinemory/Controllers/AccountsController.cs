@@ -107,7 +107,8 @@ namespace Cinemory.Controllers
             if (result.Succeeded)
             {
 
-                string redirectUrl;
+                string? redirectUrl;
+
                 if (await _userManager.IsInRoleAsync(user, "Admin"))
                     redirectUrl = Url.Action("Index", "Dashboard");
                 else
