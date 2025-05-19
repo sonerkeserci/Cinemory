@@ -157,7 +157,7 @@
 		font-weight: 550;
 	}
 
-	
+
 	.form-group {
 		margin-bottom: 15px;
 		display: flex;
@@ -198,7 +198,7 @@
 </div>
 
 <div id="loginModal" class="modal-box">
-	<div id="loginModalContent" >
+	<div id="loginModalContent">
 		<!-- Login PartialView buraya yüklenecek -->
 	</div>
 </div>
@@ -238,8 +238,8 @@
 			}
 		})
 		.then(data => {
-			if (data.success) {
-				window.location.href = "Accounts/UserFeed";
+			if (data.success&& data.redirectUrl) {        // bu redirectUrl AccountsController da tanımlı
+				window.location.href = data.redirectUrl;
 			} else if (typeof data === "string") {
 				document.getElementById("registerModalContent").innerHTML = data;
 			}
@@ -279,8 +279,8 @@
 			}
 		})
 		.then(data => {
-			if (data.success) {
-				window.location.href = "Accounts/UserFeed"; // ya da "/" vs.
+			if (data.success&& data.redirectUrl) {		// bu redirectUrl AccountsController da tanımlı
+				window.location.href = data.redirectUrl; 
 			} else if (typeof data === "string") {
 				document.getElementById("loginModalContent").innerHTML = data;
 			}

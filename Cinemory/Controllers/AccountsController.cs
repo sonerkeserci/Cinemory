@@ -59,7 +59,8 @@ namespace Cinemory.Controllers
 
                 await _signInManager.SignInAsync(user, isPersistent: false);  // otomatik sign-in işi
 
-                return Json(new { success = true });
+                return Json(new { success = true, redirectUrl = Url.Action("Index", "UserFeed") });
+
             }
 
 
@@ -105,8 +106,14 @@ namespace Cinemory.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: false); //varsa password kontrolü
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return Json(new { success = true });
+
+                string redirectUrl;
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    redirectUrl = Url.Action("Index", "Dashboard");
+                else
+                    redirectUrl = Url.Action("Index", "UserFeed");
+
+                return Json(new { success = true,redirectUrl });
             }
 
             ModelState.AddModelError("", "Invalid username or password.");
