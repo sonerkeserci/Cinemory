@@ -1,309 +1,61 @@
 ﻿@{
-	Layout = "_Layout";
-	ViewBag.BodyClass = "landing-page";
-	ViewBag.ShowLayoutParts = false;
+    ViewBag.NavMenu = "Landing";
+    Layout = "_Layout";
+    ViewData["Title"] = "Cinemory";
 }
 
-<div class="navbar">
-	<h1>Cinemory</h1>
-	<ul>
-		<li><a href="javascript:void(0);" onclick="loadLoginForm()">SIGN IN</a></li>
-		<li><a href="javascript:void(0);" onclick="loadRegisterForm()">REGISTER</a></li>
-		<li><a asp-controller="Movies" asp-action="Index">FILMS</a></li>
-		<li><a asp-controller="Accounts" asp-action="Members">MEMBERS</a></li>
-	</ul>
-</div>
-
-<div class="hero">
-	<div class="overlay">
-		<h2>Rate. Review. Remember.</h2>
-
-		<div class="quote">
-			“A book read by a thousand different people is a thousand different books.”<br>
-			― Andrei Tarkovsky
-		</div>
-	</div>
-</div>
-
-
 <style>
+    body {
+        background: url('/images/cinemory_landing_bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+    }
 
-	body.landing-page {
-		margin: 0;
-		padding: 0;
-		overflow-x: hidden;
-		background-color: #222831;
-	}
+    .landing-container {
+        text-align: center;
+        padding-top: 100px;
+        color: #b2dfdb;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    }
 
-		body.landing-page .navbar {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 0px 20px;
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			background-color: rgba(0, 0, 0, 0.8);
-			backdrop-filter: blur(2px);
-			z-index: 10;
-		}
+   
 
+    .landing-sub {
+        font-size: 1.7rem;
+		font-weight: 300;
+    }
 
-	.navbar h1 {
-		font-size: 1.85em;
-		letter-spacing: 1.7px;
-		color: #add2c9;
-		font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
-		font-weight: 800;
-	}
-
-	.navbar ul {
-		list-style: none;
-		display: flex;
-		gap: 20px;
-		margin: 0;
-		padding: 0;
-	}
-
-		.navbar ul li a {
-			color: #add2c9;
-			font-weight: 600;
-			font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
-			text-decoration: none;
-			text-transform: uppercase;
-			font-size: 0.95rem;
-			transition: transform 0.2s ease, color 0.2s ease;
-		}
-
-			.navbar ul li a:hover {
-				transform: scale(1.08);
-				color: #ffffff;
-			}
-
-	.hero {
-		background-image: url('/images/cinemory_landing_bg.jpg');
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
-		height: 100vh;
-		width: 100vw;
-		margin: 0;
-		padding: 0;
-		position: relative;
-		z-index: 1;
-	}
-
-	.overlay {
-		background-color: rgba(0, 0, 0, 0.4);
-		width: 100%;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		padding: 0;
-	}
-
-		.overlay h2 {
-			font-size: 2.4rem;
-			font-weight: 600;
-			font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
-			color: #add2c9;
-			letter-spacing: 2px;
-			margin-bottom: 300px;
-		}
-
-		.overlay p {
-			font-size: 1.1em;
-			color: #ccc;
-		}
-
-	.quote {
-		position: absolute;
-		bottom: 200px;
-		right: 40px;
-		font-size: 1em;
-		font-style: italic;
-		color: #ffffff;
-		max-width: 280px;
-		text-align: right;
-	}
-
-
-	/* Ortak modal kutusu stili yazdım belki başka yerde de kullanılır bilmiyorum artık */
-	.modal-box {
-		animation: slideIn 0.5s ease-out;
-		background: #111;
-		background-color: rgba(0, 0, 0, 0.8);
-		color: #add2c9;
-		border-radius: 10px;
-		padding: 20px;
-		width: 400px;
-		display: none;
-		position: fixed;
-		top: 10%;
-		right: 5%;
-		z-index: 9999;
-		box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-		font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
-		font-weight: 400;
-	}
-
-	.btn {
-		font-family: inherit;
-		font-weight: 550;
-	}
-
-
-	.form-group {
-		margin-bottom: 15px;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.form-control {
-		padding: 8px;
-		font-size: 1rem;
-		border-radius: 4px;
-		border: 1px solid #ccc;
-	}
-
-	.btn {
-		padding: 10px 20px;
-		font-size: 1rem;
-		background-color: #72a898;
-		border: none;
-		color: #111;
-		cursor: pointer;
-		border-radius: 5px;
-		margin-top: 10px;
-		transition: background-color 0.3s ease;
-	}
-
-		.btn:hover {
-			background-color: #2d6151;
-		}
+    .quote {
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
+        color: #ccc;
+        font-style: italic;
+        font-size: 0.95rem;
+        text-align: right;
+    }
 </style>
 
+<div class="overlay"></div>
 
-<!-- MODALssssss -->
-
-<div id="registerModal" class="modal-box">
-	<div id="registerModalContent">
-		<!-- Register PartialView buraya yüklenecek -->
-	</div>
+<div class="landing-container">
+   
+    <p class="landing-sub">Rate. Review. Remember.</p>
 </div>
 
-<div id="loginModal" class="modal-box">
-	<div id="loginModalContent">
-		<!-- Login PartialView buraya yüklenecek -->
-	</div>
+<div class="quote">
+    <p>"A book read by a thousand different people is a thousand different books."</p>
+    <p>― Andrei Tarkovsky</p>
 </div>
-
-
-
-
-
-<script>
-
-	//REGISTER FORMU
-	function loadRegisterForm() {
-
-		fetch("/Accounts/RegisterPartial")
-			.then(res => res.text())
-			.then(html => {
-				document.getElementById("registerModalContent").innerHTML = html;
-				document.getElementById("registerModal").style.display = "block";
-			});
-	}
-
-	function submitRegisterForm(e) {
-		e.preventDefault();
-		var form = document.getElementById("registerForm");
-		var formData = new FormData(form);
-
-		fetch("/Accounts/Register", {
-			method: "POST",
-			body: formData
-		})
-		.then(res => {
-			const contentType = res.headers.get("content-type");
-			if (contentType && contentType.includes("application/json")) {
-				return res.json(); // başarılı kayıt
-			} else {
-				return res.text(); // form hatalı, partialView dönecek
-			}
-		})
-		.then(data => {
-			if (data.success&& data.redirectUrl) {        // bu redirectUrl AccountsController da tanımlı
-				window.location.href = data.redirectUrl;
-			} else if (typeof data === "string") {
-				document.getElementById("registerModalContent").innerHTML = data;
-			}
-		})
-		.catch(err => {
-			console.error("Form posting error:", err);
-		});
-	}
-
-	//SIGN IN FORMU
-
-	function loadLoginForm() {
-
-		fetch("/Accounts/LoginPartial")
-			.then(res => res.text())
-			.then(html => {
-				document.getElementById("loginModalContent").innerHTML = html;
-				document.getElementById("loginModal").style.display = "block";
-			});
-	}
-
-	function submitLoginForm(e) {
-		e.preventDefault();
-		var form = document.getElementById("loginForm");
-		var formData = new FormData(form);
-
-		fetch("/Accounts/Login", {
-			method: "POST",
-			body: formData
-		})
-		.then(res => {
-			const contentType = res.headers.get("content-type");
-			if (contentType && contentType.includes("application/json")) {
-				return res.json(); // giriş başarılı
-			} else {
-				return res.text(); // form hatalı, partial dönecek
-			}
-		})
-		.then(data => {
-			if (data.success&& data.redirectUrl) {		// bu redirectUrl AccountsController da tanımlı
-				window.location.href = data.redirectUrl; 
-			} else if (typeof data === "string") {
-				document.getElementById("loginModalContent").innerHTML = data;
-			}
-		})
-		.catch(err => {
-			console.error("Login posting error:", err);
-		});
-	}
-		// Her tıklamada kontrol et
-	document.addEventListener("click", function(event) {
-		const registerModal = document.getElementById("registerModal");
-		const loginModal = document.getElementById("loginModal");
-
-		// Eğer modal açık ve tıklanan şey modalın içinde değilse → kapat
-		if (registerModal.style.display === "block" && !registerModal.contains(event.target)) {
-			registerModal.style.display = "none";
-		}
-
-		if (loginModal.style.display === "block" && !loginModal.contains(event.target)) {
-			loginModal.style.display = "none";
-		}
-	});
-
-
-</script>
-
