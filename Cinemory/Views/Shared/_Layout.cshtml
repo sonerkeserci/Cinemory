@@ -9,11 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Cinemory</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+
+<body style="background-color: #dbd8e3;">
+
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent px-3">
+        <nav class="navbar custom-navbar navbar-expand-lg px-3">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">Cinemory</a>
             <div class="collapse navbar-collapse justify-content-end">
                 @await Html.PartialAsync("_NavbarMenuPartial")
@@ -31,4 +37,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
+
+
 </html>

@@ -38,5 +38,12 @@ namespace Cinemory.Controllers
         {
             return View();
         }
+
+        public IActionResult About()
+        {
+            ViewBag.NavMenu = "Landing";
+            return View();
+        }
+
     }
 }

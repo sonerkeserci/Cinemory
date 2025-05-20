@@ -1,55 +1,69 @@
 ﻿@{
-    string navMenu = ViewBag.NavMenu as string ?? "Landing";
+	string navMenu = ViewBag.NavMenu as string ?? "Landing";
+	if (ViewData["HideNavMenu"] as bool? == true)
+	{
+		navMenu = "None";
+	}
 }
 
 <ul class="navbar-nav">
-    @if (navMenu == "Feed")
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Movies" asp-action="Index">Films</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Lists" asp-action="Index">Lists</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Users" asp-action="Members">Members</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
-        </li>
-        <li class="nav-item">
-            <form asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="nav-link btn btn-link text-white">Sign Out</button>
-            </form>
-        </li>
-    }
-    else if (navMenu == "Profile")
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Users" asp-action="Profile">My Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Users" asp-action="Edit">Edit Info</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
-        </li>
-        <li class="nav-item">
-            <form asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
-            </form>
-        </li>
-    }
-    else // default: Landing, Login, Register, About
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Login">Sign In</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-        </li>
-    }
+
+	@if (navMenu == "None")
+	{
+		<!-- Sağ menü gösterilmesin -->
+	}
+
+	else if (navMenu == "Feed")
+	{
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Movies" asp-action="Index">Films</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Lists" asp-action="Index">Lists</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Users" asp-action="Members">Members</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+
+		</li>
+
+		<li class="nav-item">
+			<form asp-controller="Account" asp-action="Logout" method="post">
+				<button type="submit" class="nav-link btn btn-link text-white">Sign Out</button>
+			</form>
+		</li>
+	}
+	else if (navMenu == "Profile")
+	{
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Users" asp-action="Profile">My Profile</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Users" asp-action="Edit">Edit Info</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+
+		</li>
+		<li class="nav-item">
+			<form asp-controller="Account" asp-action="Logout" method="post">
+				<button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+			</form>
+		</li>
+	}
+	else // default: Landing, Login, Register, About
+	{
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Account" asp-action="Login">Sign In</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+
+		</li>
+	}
 </ul>

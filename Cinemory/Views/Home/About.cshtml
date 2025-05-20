@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "About";
+    ViewBag.NavMenu = "Landing";
+    ViewData["HideNavMenu"] = true; // 👈 Bu satır menüyü yok eder
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">ABOUT</h2>
+    <p>
+        Cinemory is a minimalistic platform for film lovers to log, rate, and revisit the movies that shaped their journey.
+    </p>
+    
+    <p>
+        Cinemory is built with love — for the screen and for the memory it leaves behind.
+    </p>
+</div>
+
+<style>
+	.container {
+		padding: 20px;
+		border-radius: 5px;
+	}
+
+		.container h2 {
+			color: #343a40;
+			font-size: 2.5rem;
+			font-weight: 700;
+
+		}
+
+		.container p {
+			color: #495057;
+		}
+
+			.container p:last-child {
+				font-style: italic;
+			}
+</style>
