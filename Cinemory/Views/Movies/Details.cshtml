@@ -1,64 +1,58 @@
-﻿
-@model Cinemory.Models.Movie
+﻿@model Cinemory.Models.Movie
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = Model.Name;
 }
 
-<h1>Details</h1>
+<div class="container mt-5">
+	<div class="row">
+		<div class="col-md-4">
+			@if (!string.IsNullOrEmpty(Model.Profile?.PosterUrl))
+			{
+				<img src="/images/@Model.Profile.PosterUrl" alt="@Model.Name Poster" class="img-fluid rounded shadow" />
+			}
+			else
+			{
+				<img src="/images/posters/bladerunner.jpg" alt="No Poster" class="img-fluid rounded shadow" />
+			}
+		</div>
 
-<div>
-    <h4>Movie</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+		<div class="col-md-8">
+			<h2>@Model.Name (@Model.Year)</h2>
+			<p><strong>Director:</strong> @Model.Director?.FullName</p>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Year)
-        </dd>
+			<p>
+				<strong>Genres:</strong>
+				@string.Join(", ", Model.Genres.Select(g => g.Genre.Name))
+			</p>
 
-        <dt class="col-sm-2">
-            Director
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Director?.FullName
-        </dd>
+			<p>
+				<strong>Actors:</strong>
+				@string.Join(", ", Model.Actors.Select(a => a.Actor.FullName))
+			</p>
 
-        <dt class="col-sm-2">
-            Genres
-        </dt>
-        <dd class="col-sm-10">
-            <ul>
-                @foreach (var genre in Model.Genres)
-                {
-                    <li>@genre.Genre?.Name</li>
-                }
-            </ul>
-        </dd>
+			@if (!string.IsNullOrWhiteSpace(Model.Profile?.Synopsis))
+			{
+				<div class="mt-3">
+					<h5>Synopsis</h5>
+					<p>@Model.Profile.Synopsis</p>
+				</div>
+			}
 
-        <dt class="col-sm-2">
-            Actors
-        </dt>
-        <dd class="col-sm-10">
-            <ul>
-                @foreach (var actor in Model.Actors)
-                {
-                    <li>@actor.Actor?.FullName</li>
-                }
-            </ul>
-        </dd>
-    </dl>
-</div>
+			@if (!string.IsNullOrWhiteSpace(Model.Profile?.TrailerUrl))
+			{
+				<h5>Watch Trailer</h5>
+				<iframe class="embed-responsive-item"
+						style="width: 100%; height: 315px;"
+						src="@Model.Profile.TrailerUrl"
+						frameborder="0"
+						allowfullscreen>
+				</iframe>
+			}
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+			
+			
+		</div>
+	</div>
 </div>

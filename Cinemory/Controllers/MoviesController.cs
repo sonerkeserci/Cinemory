@@ -25,7 +25,9 @@ namespace Cinemory.Controllers
         // GET
         public async Task<IActionResult> Index()
         {
-            var cinemoryDbContext = _context.Movies.Include(m => m.Director);
+            var cinemoryDbContext = _context.Movies
+                .OrderBy(m => m.Name)
+                .Include(m => m.Director);
             return View(await cinemoryDbContext.ToListAsync());
         }
 
@@ -43,6 +45,7 @@ namespace Cinemory.Controllers
                     .ThenInclude(mg => mg.Genre)
                 .Include(m => m.Actors)
                     .ThenInclude(ma => ma.Actor)
+                .Include(m => m.Profile)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (movie == null)
@@ -60,12 +63,15 @@ namespace Cinemory.Controllers
             var model = new MovieCreateViewModel
             {
                 Directors = _context.Directors
+                .OrderBy(d => d.FullName)
             .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName }).ToList(),
 
                 Genres = _context.Genres
+                .OrderBy(g => g.Name)
             .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }).ToList(),
 
                 Actors = _context.Actors
+                .OrderBy(a => a.FullName)
             .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FullName }).ToList()
             };
 
@@ -80,9 +86,13 @@ namespace Cinemory.Controllers
             if (!ModelState.IsValid)
             {
                 // Dropdown 
-                model.Directors = _context.Directors.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName }).ToList();
-                model.Genres = _context.Genres.Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }).ToList();
-                model.Actors = _context.Actors.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FullName }).ToList();
+                model.Directors = _context.Directors
+                    .OrderBy(d => d.FullName).Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName })
+                    .ToList();
+                model.Genres = _context.Genres
+                    .OrderBy(g => g.Name).Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }).ToList();
+                model.Actors = _context.Actors
+                    .OrderBy(g => g.FullName).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FullName }).ToList();
                 return View(model);
             }
 
@@ -105,52 +115,90 @@ namespace Cinemory.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie == null)
+            var movie = await _context.Movies
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .Include(m => m.Profile)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (movie == null) return NotFound();
+
+            var model = new MovieEditViewModel
             {
-                return NotFound();
-            }
-            ViewData["DirectorId"] = new SelectList(_context.Directors, "Id", "Id", movie.DirectorId);
-            return View(movie);
+                Id = movie.Id,
+                Name = movie.Name,
+                Year = movie.Year,
+                DirectorId = movie.DirectorId,
+                SelectedGenreIds = movie.Genres.Select(g => g.GenreId).ToList(),
+                SelectedActorIds = movie.Actors.Select(a => a.ActorId).ToList(),
+                Synopsis = movie.Profile?.Synopsis,
+                PosterUrl = movie.Profile?.PosterUrl,
+                TrailerUrl = movie.Profile?.TrailerUrl,
+
+                Directors = _context.Directors.OrderBy(d => d.FullName)
+                    .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName }).ToList(),
+
+                Genres = _context.Genres.OrderBy(g => g.Name)
+                    .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }).ToList(),
+
+                Actors = _context.Actors.OrderBy(a => a.FullName)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FullName }).ToList()
+            };
+
+            return View(model);
         }
+
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Year,DirectorId")] Movie movie)
+        public async Task<IActionResult> Edit(int id, MovieEditViewModel model)
         {
-            if (id != movie.Id)
+            if (id != model.Id) return NotFound();
+
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                model.Directors = _context.Directors.OrderBy(d => d.FullName)
+                    .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName }).ToList();
+                model.Genres = _context.Genres.OrderBy(g => g.Name)
+                    .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name }).ToList();
+                model.Actors = _context.Actors.OrderBy(a => a.FullName)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FullName }).ToList();
+                return View(model);
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(movie);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MovieExists(movie.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DirectorId"] = new SelectList(_context.Directors, "Id", "Id", movie.DirectorId);
-            return View(movie);
+            var movie = await _context.Movies
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .Include(m => m.Profile)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (movie == null) return NotFound();
+
+            // Movie update
+            movie.Name = model.Name;
+            movie.Year = model.Year;
+            movie.DirectorId = model.DirectorId;
+
+            movie.Genres.Clear();
+            movie.Genres = model.SelectedGenreIds.Select(id => new MovieGenreConnection { GenreId = id }).ToList();
+
+            movie.Actors.Clear();
+            movie.Actors = model.SelectedActorIds.Select(id => new MovieActorConnection { ActorId = id }).ToList();
+
+            // MovieProfile update
+            if (movie.Profile == null)
+                movie.Profile = new MovieProfile { MovieId = movie.Id };
+
+            movie.Profile.Synopsis = model.Synopsis;
+            movie.Profile.PosterUrl = model.PosterUrl;
+            movie.Profile.TrailerUrl = model.TrailerUrl;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Delete

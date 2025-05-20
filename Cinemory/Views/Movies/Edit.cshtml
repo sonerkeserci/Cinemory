@@ -1,44 +1,78 @@
-﻿@model Cinemory.Models.Movie
+﻿@model Cinemory.Models.ViewModels.MovieEditViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Movie";
 }
 
-<h1>Edit</h1>
+<h2>Edit Movie</h2>
 
-<h4>Movie</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-8">
+        <form asp-action="Edit" method="post">
             <input type="hidden" asp-for="Id" />
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Year" class="control-label"></label>
                 <input asp-for="Year" class="form-control" />
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="DirectorId" class="control-label"></label>
-                <select asp-for="DirectorId" class="form-control" asp-items="ViewBag.DirectorId"></select>
+                <select asp-for="DirectorId" class="form-control" asp-items="Model.Directors"></select>
                 <span asp-validation-for="DirectorId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label>Genres</label>
+                <select asp-for="SelectedGenreIds" asp-items="Model.Genres" class="form-control" multiple></select>
+                <span asp-validation-for="SelectedGenreIds" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Actors</label>
+                <select asp-for="SelectedActorIds" asp-items="Model.Actors" class="form-control" multiple></select>
+                <span asp-validation-for="SelectedActorIds" class="text-danger"></span>
+            </div>
+
+            <hr />
+            <h4>Movie Profile</h4>
+
+            <div class="form-group">
+                <label asp-for="Synopsis" class="control-label"></label>
+                <textarea asp-for="Synopsis" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Synopsis" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PosterUrl" class="control-label"></label>
+                <input asp-for="PosterUrl" class="form-control" />
+                <span asp-validation-for="PosterUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TrailerUrl" class="control-label"></label>
+                <input asp-for="TrailerUrl" class="form-control" />
+                <span asp-validation-for="TrailerUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

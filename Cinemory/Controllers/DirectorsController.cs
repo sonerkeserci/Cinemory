@@ -23,7 +23,9 @@ namespace Cinemory.Controllers
         // GET: Directors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Directors.ToListAsync());
+            return View(await _context.Directors
+                .OrderBy (d => d.FullName)
+                .ToListAsync());
         }
 
         // GET: Directors/Details/5
@@ -52,8 +54,6 @@ namespace Cinemory.Controllers
         }
 
         // POST: Directors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,9 +85,7 @@ namespace Cinemory.Controllers
             return View(director);
         }
 
-        // POST: Directors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Directors/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -121,7 +119,7 @@ namespace Cinemory.Controllers
             return View(director);
         }
 
-        // GET: Directors/Delete/5
+        // GET: Directors/Delete
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -140,7 +138,7 @@ namespace Cinemory.Controllers
             return View(director);
         }
 
-        // POST: Directors/Delete/5
+        // POST: Directors/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]

@@ -21,7 +21,15 @@ namespace Cinemory.Controllers
             _context = context;
         }
 
-   
+        // GET: Genres
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Genres
+                .OrderBy(g => g.Name)
+                .ToListAsync());
+        }
+
+
 
         // GET: Genres/Create
         public IActionResult Create()

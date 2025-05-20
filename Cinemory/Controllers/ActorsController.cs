@@ -23,10 +23,12 @@ namespace Cinemory.Controllers
         // GET: Actors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Actors.ToListAsync());
+            return View(await _context.Actors
+                .OrderBy(a => a.FullName)
+                .ToListAsync());
         }
 
-        // GET: Actors/Details/5
+        // GET: Actors/Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,8 +55,6 @@ namespace Cinemory.Controllers
         }
 
         // POST: Actors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -69,7 +69,7 @@ namespace Cinemory.Controllers
             return View(actor);
         }
 
-        // GET: Actors/Edit/5
+        // GET: Actors/Edit
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,9 +86,7 @@ namespace Cinemory.Controllers
             return View(actor);
         }
 
-        // POST: Actors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Actors/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -122,7 +120,7 @@ namespace Cinemory.Controllers
             return View(actor);
         }
 
-        // GET: Actors/Delete/5
+        // GET: Actors/Delete
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -141,7 +139,7 @@ namespace Cinemory.Controllers
             return View(actor);
         }
 
-        // POST: Actors/Delete/5
+        // POST: Actors/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
