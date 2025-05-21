@@ -2,7 +2,7 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 @{
-	string navMenu = ViewBag.NavMenu as string ?? "Landing";
+	string navMenu = ViewBag.NavMenu;
 	if (ViewData["HideNavMenu"] as bool? == true)
 	{
 		navMenu = "None";
@@ -11,9 +11,18 @@
 
 <ul class="navbar-nav">
 
-	@if (navMenu == "None")
+	@if (navMenu == "Landing")
 	{
-		<!-- Sağ menü gösterilmesin -->
+		<li class="nav-item">
+			<a href="#" class="nav-link" id="openLoginModal">Sign In</a>
+		</li>
+		<li class="nav-item">
+			<a href="#" class="nav-link" id="openRegisterModal">Register</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+
+		</li>
 	}
 
 	else if (navMenu == "User Feed")
@@ -69,17 +78,10 @@
 			</form>
 		</li>
 	}
-	else // default: Landing
+	else 
 	{
-		<li class="nav-item">
-			<a href="#" class="nav-link" id="openLoginModal">Sign In</a>
-		</li>
-		<li class="nav-item">
-			<a href="#" class="nav-link" id="openRegisterModal">Register</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
 
-		</li>
+		<!-- Sağ menü gösterilmesin -->
+		
 	}
 </ul>
