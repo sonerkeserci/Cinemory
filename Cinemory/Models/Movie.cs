@@ -16,6 +16,9 @@ namespace Cinemory.Models
         public MovieProfile? Profile { get; set; } //navigation, MovieProfile one-to-one 
         public ICollection<MovieGenreConnection> Genres { get; set; } = new List<MovieGenreConnection>();
         public ICollection<MovieActorConnection> Actors { get; set; } = new List<MovieActorConnection>();
+        public ICollection<MovieWatchlistConnection> Watchlists { get; set; } = new List<MovieWatchlistConnection>();
+
+
 
 
         public ICollection<Review>? Reviews { get; set; } 

@@ -10,19 +10,23 @@ using Cinemory.Data;
 using Cinemory.Models;
 using Cinemory.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Cinemory.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly CinemoryDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public MoviesController(CinemoryDbContext context)
+        public MoviesController(CinemoryDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET
+        // GET:Index:only admin can see this page
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var cinemoryDbContext = _context.Movies
@@ -31,7 +35,7 @@ namespace Cinemory.Controllers
             return View(await cinemoryDbContext.ToListAsync());
         }
 
-        // GET
+        // GET:Details:users will see this page
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -236,6 +240,8 @@ namespace Cinemory.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+       
 
         private bool MovieExists(int id)
         {
