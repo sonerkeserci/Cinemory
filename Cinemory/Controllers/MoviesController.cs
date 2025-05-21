@@ -241,7 +241,95 @@ namespace Cinemory.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
+        //POST : Movie & User interaction
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Interact(MovieInteractionViewModel model)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            // FAVORITE MOVIE
+            if (model.IsFavorite)
+            {
+                if (!_context.FavoriteMovies.Any(f => f.MovieId == model.MovieId && f.UserId == userId))
+                {
+                    _context.FavoriteMovies.Add(new FavoriteMovie { MovieId = model.MovieId, UserId = userId });
+                }
+            }
+
+            // WATCHLIST
+            var watchlist = await _context.Watchlists                // Kullanıcının Watchlist'ini al
+                .Include(w => w.Movies)
+                .FirstOrDefaultAsync(w => w.UserId == userId);
+
+            
+            if (watchlist == null)              // Eğer hiç yoksa oluştur
+            {
+                watchlist = new Watchlist
+                {
+                    UserId = userId,
+                    Name = "My Watchlist",
+                    Movies = new List<MovieWatchlistConnection>()
+                };
+                _context.Watchlists.Add(watchlist);
+            }
+
+            // Bu movie zaten listede mi?
+            bool IsInWatchlist = watchlist.Movies?.Any(m => m.MovieId == model.MovieId) ?? false;
+
+
+            // Yoksa listeye ekle
+            if (!IsInWatchlist)
+            {
+                watchlist.Movies.Add(new MovieWatchlistConnection
+                {
+                    MovieId = model.MovieId
+                });
+            }
+
+
+
+            // RATING
+            if (model.Rating.HasValue && model.Rating >= 1 && model.Rating <= 10)
+            {
+                var existing = await _context.Ratings.FirstOrDefaultAsync(r => r.MovieId == model.MovieId && r.UserId == userId);
+                if (existing == null)
+                {
+                    _context.Ratings.Add(new Rating { MovieId = model.MovieId, UserId = userId, Score = model.Rating.Value });
+                }
+                else
+                {
+                    existing.Score = model.Rating.Value;
+                }
+            }
+
+            // REVIEW
+            if (!string.IsNullOrWhiteSpace(model.Review))
+            {
+                var existingReview = await _context.Reviews
+                    .FirstOrDefaultAsync(r => r.MovieId == model.MovieId && r.UserId == userId);
+
+                if (existingReview == null)
+                {
+                    _context.Reviews.Add(new Review
+                    {
+                        MovieId = model.MovieId,
+                        UserId = userId,
+                        Entry = model.Review
+                    });
+                }
+                else
+                {
+                    existingReview.Entry = model.Review;
+                }
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = model.MovieId });
+
+
+        }
+
+
 
         private bool MovieExists(int id)
         {

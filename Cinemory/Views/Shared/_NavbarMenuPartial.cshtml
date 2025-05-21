@@ -27,13 +27,13 @@
 
 	else if (navMenu == "User Feed")
 	{
-		
-			string username = null;
-			if (SignInManager.IsSignedIn(User))
-			{
-				var user = UserManager.GetUserAsync(User).Result;
-				username = user?.UserName ?? user?.UserName;
-			}
+
+		string? username = null;
+		if (SignInManager.IsSignedIn(User))
+		{
+			var user = UserManager.GetUserAsync(User).Result;
+			username = user.UserName;
+		}
 		@if (username != null)
 		{
 			<li class="nav-item">
@@ -56,10 +56,10 @@
 				<button type="submit" class="nav-link text-uppercase text-black">Sign Out</button>
 			</form>
 		</li>
-		
-	}	
 
-	
+	}
+
+
 	else if (navMenu == "Profile")
 	{
 		<li class="nav-item">
@@ -78,10 +78,9 @@
 			</form>
 		</li>
 	}
-	else 
+	else
 	{
 
 		<!-- Sağ menü gösterilmesin -->
-		
 	}
 </ul>
