@@ -5,37 +5,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Cinemory</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Cinemory</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
 </head>
 
 <body style="background-color: #dbd8e3;">
 
-    <header>
-        <nav class="navbar custom-navbar navbar-expand-lg px-3">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Cinemory</a>
-            <div class="collapse navbar-collapse justify-content-end">
-                @await Html.PartialAsync("_NavbarMenuPartial")
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+	<header>
+		<nav class="navbar custom-navbar navbar-expand-lg px-3">
+			<a class="navbar-brand" asp-controller="Home" asp-action="Index">Cinemory</a>
+			<div class="collapse navbar-collapse justify-content-end">
+				@await Html.PartialAsync("_NavbarMenuPartial")
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
 
-   
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @RenderSection("Scripts", required: false)
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const loginBtn = document.getElementById("openLoginModal");
+			const registerBtn = document.getElementById("openRegisterModal");
+
+			if (loginBtn) {
+				loginBtn.addEventListener("click", function (e) {
+					e.preventDefault();
+					fetch("/Accounts/LoginPartial")
+						.then(res => res.text())
+						.then(html => {
+							const content = document.getElementById("loginModalContent");
+							content.innerHTML = html;
+							content.classList.add("modal-box"); // 👈 ANİMASYON BURADA TETİKLENİR
+							new bootstrap.Modal(document.getElementById("loginModal")).show();
+						});
+				});
+			}
+
+			if (registerBtn) {
+				registerBtn.addEventListener("click", function (e) {
+					e.preventDefault();
+					fetch("/Accounts/RegisterPartial")
+						.then(res => res.text())
+						.then(html => {
+							const content = document.getElementById("registerModalContent");
+							content.innerHTML = html;
+							content.classList.add("modal-box"); // 👈 ANİMASYON BURADA TETİKLENİR
+							new bootstrap.Modal(document.getElementById("registerModal")).show();
+						});
+				});
+			}
+		});
+	</script>
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	@RenderSection("Scripts", required: false)
+
+
+	<!-- Login Modal -->
+	<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content" id="loginModalContent">
+				<!-- AJAX ile içerik buraya gelecek -->
+			</div>
+		</div>
+	</div>
+
+	<!-- Register Modal -->
+	<div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content" id="registerModalContent">
+				<!-- AJAX ile içerik buraya gelecek -->
+			</div>
+		</div>
+	</div>
+
+
 </body>
 
 

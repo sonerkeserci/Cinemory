@@ -53,13 +53,13 @@
 			</form>
 		</li>
 	}
-	else // default: Landing, Login, Register, About
+	else // default: Landing
 	{
 		<li class="nav-item">
-			<a class="nav-link" asp-controller="Account" asp-action="Login">Sign In</a>
+			<a href="#" class="nav-link" id="openLoginModal">Sign In</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+			<a href="#" class="nav-link" id="openRegisterModal">Register</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>

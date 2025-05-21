@@ -20,6 +20,26 @@
     <button type="submit" class="btn btn-primary">SIGN IN</button>
 </form>
 
+<script>
+    function submitLoginForm(event) {
+        event.preventDefault();
+        const form = document.getElementById("loginForm");
+
+        fetch(form.action, {
+            method: "POST",
+            body: new FormData(form)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirectUrl;
+            } else {
+                document.getElementById("loginModalContent").innerHTML = data.partialHtml;
+            }
+        });
+    }
+</script>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
