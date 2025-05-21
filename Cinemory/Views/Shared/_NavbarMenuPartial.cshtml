@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@{
 	string navMenu = ViewBag.NavMenu as string ?? "Landing";
 	if (ViewData["HideNavMenu"] as bool? == true)
 	{
@@ -15,6 +18,19 @@
 
 	else if (navMenu == "User Feed")
 	{
+		
+			string username = null;
+			if (SignInManager.IsSignedIn(User))
+			{
+				var user = UserManager.GetUserAsync(User).Result;
+				username = user?.UserName ?? user?.UserName;
+			}
+		@if (username != null)
+		{
+			<li class="nav-item">
+				<a class="nav-link" asp-controller="UserProfile" asp-action="Index">@username</a>
+			</li>
+		}
 		<li class="nav-item">
 			<a class="nav-link" asp-controller="Movies" asp-action="Index">Films</a>
 		</li>
@@ -22,19 +38,19 @@
 			<a class="nav-link" asp-controller="Watchists" asp-action="Index">Lists</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" asp-controller="Accounts" asp-action="Members">Members</a>
-		</li>
-		<li class="nav-item">
 			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
 
 		</li>
-
 		<li class="nav-item">
-			<form asp-controller="Account" asp-action="Logout" method="post">
+			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
+				@Html.AntiForgeryToken()
 				<button type="submit" class="nav-link text-uppercase text-black">Sign Out</button>
 			</form>
 		</li>
-	}
+		
+	}	
+
+	
 	else if (navMenu == "Profile")
 	{
 		<li class="nav-item">
