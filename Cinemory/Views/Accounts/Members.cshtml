@@ -1,4 +1,9 @@
 ﻿@model List<AppUser>
+@{
+    ViewData["Title"] = "About";
+    ViewBag.NavMenu = "Landing";
+    ViewData["HideNavMenu"] = true; // 👈 Bu satır menüyü yok eder
+}
 
 <h2 style="margin-bottom: 20px;">Members</h2>
 

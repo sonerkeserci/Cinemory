@@ -30,7 +30,7 @@ namespace Cinemory.Controllers
                 return RedirectToAction("Index", "Dashboard");
 
 
-            return RedirectToAction("ActivityFeed", "UserFeed"); // Admin değilse, normal kullanıcı feed sayfası
+            return RedirectToAction("Index", "UserFeed"); // Admin değilse, normal kullanıcı feed sayfası
         }
 
         // Github Test

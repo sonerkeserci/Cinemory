@@ -13,16 +13,16 @@
 		<!-- Sağ menü gösterilmesin -->
 	}
 
-	else if (navMenu == "Feed")
+	else if (navMenu == "User Feed")
 	{
 		<li class="nav-item">
 			<a class="nav-link" asp-controller="Movies" asp-action="Index">Films</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" asp-controller="Lists" asp-action="Index">Lists</a>
+			<a class="nav-link" asp-controller="Watchists" asp-action="Index">Lists</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" asp-controller="Users" asp-action="Members">Members</a>
+			<a class="nav-link" asp-controller="Accounts" asp-action="Members">Members</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
@@ -31,7 +31,7 @@
 
 		<li class="nav-item">
 			<form asp-controller="Account" asp-action="Logout" method="post">
-				<button type="submit" class="nav-link btn btn-link text-white">Sign Out</button>
+				<button type="submit" class="nav-link text-uppercase text-black">Sign Out</button>
 			</form>
 		</li>
 	}

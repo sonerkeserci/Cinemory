@@ -128,11 +128,6 @@ namespace Cinemory.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Login(string? returnUrl = null)
-        {
-            return RedirectToAction("Landing", "Home"); // modal sistem burada
-        }
 
 
 
