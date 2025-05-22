@@ -6,6 +6,12 @@ namespace Cinemory.Controllers
     {
         public IActionResult Index()
         {
+
+
+
+
+
+
             return View();
         }
     }
