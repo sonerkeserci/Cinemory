@@ -98,6 +98,24 @@ html {
         justify-content: center;
     }
 }
+button.submit-button {
+    background-color: #a2a8d3;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #374151;
+    margin-bottom: 5px;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+    button.submit-button:hover {
+        background-color: #430f58;
+    }
 
 
 

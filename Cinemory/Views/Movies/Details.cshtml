@@ -5,6 +5,22 @@
 }
 
 <style>
+	.avg-star { 
+		background-color: #a2a8d3;
+		color: #fbbf24;
+		font-weight: bold;
+		font-size: 1rem;
+		border: 1px solid #fbbf24;
+		border-radius: 12px;
+		box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+	}
+
+	.star-icon {
+		font-size: 30px;
+		color: #fbbf24;
+	}
+
+
 	.star {
 		font-size: 22px;
 		cursor: pointer;
@@ -15,6 +31,7 @@
 		.star.selected, .star.hovered {
 			color: gold;
 		}
+
 </style>
 
 <div class="container-fluid mt-5">
@@ -90,10 +107,35 @@
 						<textarea name="Review" id="reviewText" class="form-control" rows="3" placeholder="Write your thoughts..."></textarea>
 					</div>
 
-					<button type="submit" class="btn btn-success mt-3 w-100">Submit</button>
+					<button type="submit" class="submit-button mt-3">Submit</button>
+
+
+
+					@if (Model.Profile?.AverageRating > 0)
+					{
+						<div class="container text-center mt-5">
+							<div class="avg-star d-inline-flex align-items-center px-3 py-2 rounded">
+								<span class="star-icon">&#9733;</span>
+								<span class="ms-2">@Model.Profile.AverageRating / 10</span>
+							</div>
+						</div>
+					}
+					else
+					{
+						<div class="container text-center mt-5">
+							<div class="text-muted">No ratings yet.</div>
+						</div>
+					}
+
 				</form>
+
+
+
+				
 			</div>
 		}
+
+
 	</div>
 </div>
 

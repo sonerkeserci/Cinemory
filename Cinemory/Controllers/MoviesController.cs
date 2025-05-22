@@ -11,6 +11,7 @@ using Cinemory.Models;
 using Cinemory.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Cinemory.Controllers
 {
@@ -55,6 +56,20 @@ namespace Cinemory.Controllers
             if (movie == null)
             {
                 return NotFound();
+            }
+
+            // Ortalama puanı hesabını MovieProfile'a ekle
+            var scores = await _context.Ratings
+            .Where(r => r.MovieId == id)
+            .Select(r => r.Score)
+            .ToListAsync(); // ✔ SQL'e çevrilebilir
+
+            double average = scores.Any() ? scores.Average() : 0;
+
+
+            if (movie.Profile != null)
+            {
+                movie.Profile.AverageRating = Math.Round(average, 1);
             }
 
             return View(movie);
@@ -262,7 +277,7 @@ namespace Cinemory.Controllers
                 .Include(w => w.Movies)
                 .FirstOrDefaultAsync(w => w.UserId == userId);
 
-            
+
             if (watchlist == null)              // Eğer hiç yoksa oluştur
             {
                 watchlist = new Watchlist
