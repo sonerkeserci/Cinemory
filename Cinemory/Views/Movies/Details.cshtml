@@ -39,7 +39,7 @@
 
 		<!-- Sol: Poster -->
 		<div class="col-md-4 d-flex justify-content-start">
-			<img src="/images/@(string.IsNullOrEmpty(Model.Profile?.PosterUrl) ? "posters/_no_poster.jpg" : $"posters/{Model.Profile.PosterUrl}")"
+			<img src="/images/@(string.IsNullOrEmpty(Model.Profile?.PosterUrl) ? "posters/_no_poster.png" : $"posters/{Model.Profile.PosterUrl}")"
 				 alt="@Model.Name Poster"
 				 style="width: auto; max-width: 100%; height: auto; max-height: 6000px; border-radius: 2px;"
 				 class="img-fluid rounded shadow" />
