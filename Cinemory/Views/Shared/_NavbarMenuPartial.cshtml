@@ -8,8 +8,46 @@
 		navMenu = "None";
 	}
 }
+@{
+	string? username = null;
+	bool isAdmin = false;
+
+	if (SignInManager.IsSignedIn(User))
+	{
+		var user = await UserManager.GetUserAsync(User);
+		username = user?.UserName;
+		isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+	}
+}
 
 <ul class="navbar-nav">
+
+	@if (isAdmin)
+	{
+		@if (username != null)
+		{
+			<li class="nav-item">
+				<a class="nav-link text-danger"
+				   asp-controller="Dashboard"
+				   asp-action="Index">
+					ADMINISTRATORY: @username
+				</a>
+			</li>
+		}
+
+		<li class="nav-item">
+			<a class="nav-link"
+			   asp-controller="Accounts"
+			   asp-action="Members">MEMBERS</a>
+		</li>
+
+		<li class="nav-item">
+			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
+				@Html.AntiForgeryToken()
+				<button type="submit" class="nav-link text-uppercase">Sign Out</button>
+			</form>
+		</li>
+	}
 
 	@if (navMenu == "Landing")
 	{
@@ -28,12 +66,6 @@
 	else if (navMenu == "User Feed")
 	{
 
-		string? username = null;
-		if (SignInManager.IsSignedIn(User))
-		{
-			var user = UserManager.GetUserAsync(User).Result;
-			username = user.UserName;
-		}
 		@if (username != null)
 		{
 			<li class="nav-item">
@@ -54,36 +86,6 @@
 			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
 				@Html.AntiForgeryToken()
 				<button type="submit" class="nav-link text-uppercase text-black">Sign Out</button>
-			</form>
-		</li>
-
-	}
-	else if (navMenu == "Dashboard")
-	{
-
-		string? username = null;
-		if (SignInManager.IsSignedIn(User))
-		{
-			var user = UserManager.GetUserAsync(User).Result;
-			username = user.UserName;
-		}
-		@if (username != null)
-		{
-			<li class="nav-item">
-				<a class="nav-link text-danger"  asp-controller="Dashboard" asp-action="Index">ADMINISTRATORY: @username</a>
-			</li>
-		} 
-
-		<li class="nav-item">
-			<a class="nav-link" asp-controller="Accounts" asp-action="Members">MEMBERS</a>
-		</li>
-
-
-
-		<li class="nav-item">
-			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
-				@Html.AntiForgeryToken()
-				<button type="submit" class="nav-link text-uppercase">Sign Out</button>
 			</form>
 		</li>
 
