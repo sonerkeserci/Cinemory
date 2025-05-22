@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Cinemory.Models.Movie>
+
+@{
+    ViewData["Title"] = "All Movies";
+}
+
+
+
+<h2 class="explore-header">Explore Movies</h2>
+
+<div class="d-flex flex-wrap justify-content-center gap-4">
+    @foreach (var movie in Model)
+    {
+        <div class="movie-card">
+            <a asp-action="Details" asp-route-id="@movie.Id">
+                <img src="~/images/posters/@(string.IsNullOrEmpty(movie.Profile?.PosterUrl) ? "no_poster.png" : movie.Profile.PosterUrl)" />
+                <div class="movie-title-overlay">
+                    <div>@movie.Name</div>
+                    <div>@movie.Year</div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+

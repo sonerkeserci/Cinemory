@@ -26,7 +26,7 @@ namespace Cinemory.Controllers
             _userManager = userManager;
         }
 
-        // GET:Index:only admin can see this page
+        // GET:Index    -   sadece adminler görecek
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
@@ -36,7 +36,21 @@ namespace Cinemory.Controllers
             return View(await cinemoryDbContext.ToListAsync());
         }
 
-        // GET:Details:users will see this page
+        // GET:PublicIndex - kullanıcılar bu sayfayı görecek
+        [AllowAnonymous] 
+        public async Task<IActionResult> PublicIndex()
+        {
+            var movies = await _context.Movies
+                .Include(m => m.Director)
+                .Include(m => m.Profile)
+                .OrderByDescending(m=>m.Name)
+                .ToListAsync();
+
+            return View(movies); // PublicIndex.cshtml adlı View dosyasına gider
+        }
+
+
+        // GET:Details:users will see this page as a MovieProfile
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
