@@ -8,5 +8,13 @@
         public int? Rating { get; set; }
 
         public string? Review { get; set; }
+
+        // Movie bilgileri
+        public string? Name { get; set; }
+        public int Year { get; set; }
+
+        // MovieProfile bilgileri
+        public string? PosterUrl { get; set; }
+        public double? AverageRating { get; set; }
     }
 }
