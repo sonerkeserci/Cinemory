@@ -202,15 +202,14 @@ button.submit-button {
 
 .movie-card {
     letter-spacing: 2px;
+
     position: relative;
     overflow: hidden;
-    border-radius: 3px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
     width: 100%;
     max-width: 230px; /* kart geniþliði sabit */
     height: 350px; /* kart yüksekliði sabit */
-    margin: auto;
+    margin: -5px;
 }
 
     .movie-card:hover {

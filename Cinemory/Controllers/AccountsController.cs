@@ -64,7 +64,7 @@ namespace Cinemory.Controllers
 
                 await _signInManager.SignInAsync(user, isPersistent: false);  // otomatik sign-in işi
 
-                return Json(new { success = true, redirectUrl = Url.Action("Index", "UserFeed") });
+                return Json(new { success = true, redirectUrl = Url.Action("UserFeedIndex", "UserFeed") });
 
             }
 
