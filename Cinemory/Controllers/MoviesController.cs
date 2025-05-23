@@ -276,6 +276,7 @@ namespace Cinemory.Controllers
         public async Task<IActionResult> Interact(MovieInteractionViewModel model)
         {
             var userId = _userManager.GetUserId(User);
+            var username = _userManager.GetUserName(User);
 
             // FAVORITE MOVIE
             if (model.IsFavorite)
@@ -294,10 +295,11 @@ namespace Cinemory.Controllers
 
             if (watchlist == null)              // Eğer hiç yoksa oluştur
             {
+                
                 watchlist = new Watchlist
                 {
                     UserId = userId,
-                    Name = "My Watchlist",
+                    Name = $"{username}'s Watchlist",
                     Movies = new List<MovieWatchlistConnection>()
                 };
                 _context.Watchlists.Add(watchlist);
