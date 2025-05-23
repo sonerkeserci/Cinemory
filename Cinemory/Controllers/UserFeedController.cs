@@ -18,7 +18,7 @@ namespace Cinemory.Controllers
             _userManager = userManager;
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> UserFeedIndex(UserFeedViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -50,7 +50,7 @@ namespace Cinemory.Controllers
 
 
 
-            return View();
+            return View(model);
         }
     }
 }

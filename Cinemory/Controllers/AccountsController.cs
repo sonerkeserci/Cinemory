@@ -118,7 +118,7 @@ namespace Cinemory.Controllers
                 if (await _userManager.IsInRoleAsync(user, "Admin"))
                     redirectUrl = Url.Action("Index", "Dashboard");
                 else
-                    redirectUrl = Url.Action("Index", "UserFeed");
+                    redirectUrl = Url.Action("UserFeedIndex", "UserFeed");
 
                 return Json(new { success = true,redirectUrl });
             }

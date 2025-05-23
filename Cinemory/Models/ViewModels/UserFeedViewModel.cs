@@ -2,23 +2,21 @@
 {
     public class UserFeedViewModel
     {
-        public string UserName { get; set; }
+        public required string UserName { get; set; } = "";
+        public string? UserId { get; set; }
 
         // Kullanıcının izlemek istediği ama henüz izlemediği filmler
-        public List<MovieProfile> WatchlistedMovies { get; set; }
+        public List<MovieProfile>? WatchlistedMovies { get; set; } = new List<MovieProfile>();
 
         // Kullanıcının izlediği ve puanladığı filmler
-        public List<MovieProfile> WatchedMovies { get; set; }
+        public List<MovieProfile>? WatchedMovies { get; set; } = new List<MovieProfile>();
 
         // Sistem tarafından önerilen filmler (AI veya kurallı)
-        public List<MovieProfile> RecommendedMovies { get; set; }
+        public List<MovieProfile>? RecommendedMovies { get; set; } = new List<MovieProfile>();
 
         
 
-        // Kullanıcının ID'si (gerekirse)
-        public string? UserId { get; set; }
-
         // Dış haber iframe için
-        public string WidgetUrl { get; set; } = "https://www.tasteofcinema.com";
+        public string WidgetUrl { get; set; } = "https://www.tasteofcinema.com/category/features/";
     }
 }
