@@ -31,62 +31,78 @@
 
     <!-- SOL PANEL -->
     <div class="left-panel">
+
         <h3 class="feed-h3">Last watched...</h3>
-        @foreach (var movie in Model.LastWatched)
-        {
-            <div class="feed-card">
-                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
-                <div class="feed-title-overlay">
-                    @movie.Name
+        <div class="feed-card-container">
+            
+            @foreach (var movie in Model.LastWatched)
+            {
+                <div class="feed-card">
+                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <div class="feed-title-overlay">
+                        @movie.Name
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
+
 
         <h3 class="feed-h3">Last watchlisted...</h3>
-        @foreach (var movie in Model.Watchlisted)
-        {
-            <div class="feed-card">
-                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
-                <div class="feed-title-overlay">
-                    @movie.Name
+        <div class="feed-card-container">
+
+            @foreach (var movie in Model.Watchlisted)
+            {
+                <div class="feed-card">
+                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <div class="feed-title-overlay">
+                        @movie.Name
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
+       
     </div>
 
     <!-- ORTA PANEL -->
     <div class="center-panel">
         <h3 class="feed-h3">Recently added...</h3>
-        @foreach (var movie in Model.RecentlyAdded)
-        {
-            <div class="feed-card">
-                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
-                <div class="feed-title-overlay">
-                    @movie.Name
+        <div class="feed-card-container">
+            @foreach (var movie in Model.RecentlyAdded)
+            {
+                <div class="feed-card">
+                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <div class="feed-title-overlay">
+                        @movie.Name
+                    </div>
                 </div>
-            </div>
-        }
+            }
+            
+        </div> 
+        
 
         <h3 class="feed-h3">Recommended for you...</h3>
-        @foreach (var movie in Model.Recommended)
-        {
-            <div class="feed-card">
-                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
-                <div class="feed-title-overlay">
-                    @movie.Name
+        <div class="feed-card-container">
+
+            @foreach (var movie in Model.Recommended)
+            {
+                <div class="feed-card">
+                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <div class="feed-title-overlay">
+                        @movie.Name
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
+      
     </div>
 
     <!-- SAĞ PANEL -->
     <div class="right-panel">
-        <h3 class="feed-h3">News...</h3>
-        <iframe src="@Model.RssWidgetUrl"
-                width="100%"
-                height="600px"
-                style="border: none;">
-        </iframe>
+        <div class="rss-wrapper">
+            <h3 class="feed-h3">News...</h3>
+            <iframe src="@Model.RssWidgetUrl"></iframe>
+        </div>
     </div>
+
 
 </div>
