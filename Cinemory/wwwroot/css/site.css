@@ -74,8 +74,8 @@ html {
 
 /* Kartlar */
 .feed-card {
-    width: 13px;
-    height: 20px;
+    width: 130px !important;
+    height: 200px !important;
     background: #2C2C4F;
     border-radius: 5px;
     overflow: hidden;

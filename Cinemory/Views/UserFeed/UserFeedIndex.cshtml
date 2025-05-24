@@ -16,21 +16,21 @@
 
     <!-- SOL PANEL -->
     <div class="left-panel">
-        <feed-h3>Last watched...</feed-h3>
+        <h3 class="feed-h3">Last watched...</h3>
         @foreach (var movie in Model.LastWatched)
         {
             <div class="feed-card">
-                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
+                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+
                 <p>@movie.Name</p>
-                <p class="small">★ @movie.Rating / Avg: @movie.AverageRating</p>
             </div>
         }
 
-        <feed-h3>Watchlist</feed-h3>
+        <h3 class="feed-h3">Watchlisted...</h3>
         @foreach (var movie in Model.Watchlisted)
         {
             <div class="feed-card">
-                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
+                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
                 <p>@movie.Name</p>
             </div>
         }
@@ -38,20 +38,20 @@
 
     <!-- ORTA PANEL -->
     <div class="center-panel">
-        <feed-h3>Recently added...</feed-h3>
+        <h3 class="feed-h3">Recently added...</h3>
         @foreach (var movie in Model.RecentlyAdded)
         {
             <div class="feed-card">
-                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
-                <p>@movie.Name (@movie.Year)</p>
+                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                <p>@movie.Name</p>
             </div>
         }
 
-        <feed-h3>Recommended for you...</feed-h3>
+        <h3 class="feed-h3">Recommended for you...</h3>
         @foreach (var movie in Model.Recommended)
         {
             <div class="feed-card">
-                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
+                <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
                 <p>@movie.Name</p>
             </div>
         }
@@ -59,7 +59,7 @@
 
     <!-- SAĞ PANEL -->
     <div class="right-panel">
-        <feed-h3>News</feed-h3>
+        <h3 class="feed-h3">News...</h3>
         <iframe src="@Model.RssWidgetUrl"
                 width="100%"
                 height="600px"
