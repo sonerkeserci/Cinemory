@@ -77,6 +77,7 @@ namespace Cinemory.Controllers
             .Include(c => c.Movie)
                 .ThenInclude(m => m.Watchlists)
                     .ThenInclude(w => w.Watchlist)
+                    .Take(5) 
             .Select(c => new MovieInteractionViewModel
             {
                 MovieId = c.MovieId,
