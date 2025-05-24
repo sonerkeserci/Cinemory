@@ -23,63 +23,79 @@ html {
 
 /* === UserFeed SAYFASINA STYLE === */
 .user-feed-layout {
-    color: rgba(255, 85, 170, 0.3);
     display: flex;
-    gap: 30px;
-    padding: 20px;
+    gap: 80px; /* paneller arasý boþluk */
     align-items: flex-start;
+    padding: 20px;
 }
 
-/* Paneller */
 .left-panel {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .center-panel {
-    flex: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
+
+
+
+.left-panel, .center-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+    .left-panel > div, .center-panel > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1px;
+    }
+
+
 
 .right-panel {
     flex: 1;
     max-width: 300px;
-    height: 100vh;
-    position: sticky;
-    top: 0;
+}
+/* Baþlýklar */
+.feed-h3 {
+    border-left: 5px solid #ff55aa;
+    padding-left: 10px;
+    color: #430f58;
+    margin-bottom: 1px;
+    margin-top: 50px;
 }
 
 /* Kartlar */
-.movie-card {
-    margin-bottom: 15px;
-    background: #2c2c4f;
-    padding: 10px;
-    border-radius: 10px;
-    transition: 0.3s ease;
+.feed-card {
+    width: 13px;
+    height: 20px;
+    background: #2C2C4F;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-    .movie-card:hover {
-        transform: scale(1.02);
-        box-shadow: 0 10px 20px rgba(255, 85, 170, 0.3);
-    }
-
-    .movie-card img {
+    .feed-card img {
         width: 100%;
-        border-radius: 5px;
-        border: 1px solid #444;
+        height: 80%;
+        object-fit: cover;
     }
 
-    .movie-card p {
+    .feed-card p {
+        font-size: 11px;
+        text-align: center;
         color: white;
-        font-size: 14px;
-        margin-top: 5px;
     }
 
-/* Baþlýklar */
-h3 {
-    border-left: 4px solid #ff55aa;
-    padding-left: 10px;
-    color: #430f58;
-    margin-bottom: 15px;
-}
+
+
+
 
 
 /*SLIDE-IN POP-UPS*/

@@ -1,10 +1,70 @@
-﻿@{
+﻿@model Cinemory.Models.ViewModels.UserFeedViewModel;
+
+@{
 	ViewBag.NavMenu = "User Feed";
 	Layout = "_Layout";
 }
+
 
 <div class="container">
     <h2 class="mb-4">Welcome back your feed!</h2>
 
    
+</div>
+
+<div class="user-feed-layout">
+
+    <!-- SOL PANEL -->
+    <div class="left-panel">
+        <feed-h3>Last watched...</feed-h3>
+        @foreach (var movie in Model.LastWatched)
+        {
+            <div class="feed-card">
+                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
+                <p>@movie.Name</p>
+                <p class="small">★ @movie.Rating / Avg: @movie.AverageRating</p>
+            </div>
+        }
+
+        <feed-h3>Watchlist</feed-h3>
+        @foreach (var movie in Model.Watchlisted)
+        {
+            <div class="feed-card">
+                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
+                <p>@movie.Name</p>
+            </div>
+        }
+    </div>
+
+    <!-- ORTA PANEL -->
+    <div class="center-panel">
+        <feed-h3>Recently added...</feed-h3>
+        @foreach (var movie in Model.RecentlyAdded)
+        {
+            <div class="feed-card">
+                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
+                <p>@movie.Name (@movie.Year)</p>
+            </div>
+        }
+
+        <feed-h3>Recommended for you...</feed-h3>
+        @foreach (var movie in Model.Recommended)
+        {
+            <div class="feed-card">
+                <img src="@(!string.IsNullOrEmpty(movie.PosterUrl) ? movie.PosterUrl : "/images/posters/_no_poster.png")" />
+                <p>@movie.Name</p>
+            </div>
+        }
+    </div>
+
+    <!-- SAĞ PANEL -->
+    <div class="right-panel">
+        <feed-h3>News</feed-h3>
+        <iframe src="@Model.RssWidgetUrl"
+                width="100%"
+                height="600px"
+                style="border: none;">
+        </iframe>
+    </div>
+
 </div>
