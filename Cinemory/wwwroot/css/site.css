@@ -13,7 +13,7 @@ html {
     font-weight: 400;
     font-style: normal;
 }
-
+ /* Movie interaction and average rating stars */
 .avg-star {
     background-color: #430f58;
     color: #fbbf24;
