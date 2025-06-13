@@ -43,6 +43,7 @@ namespace Cinemory.Controllers
             .Include(r => r.Movie)
                 .ThenInclude(m => m.Watchlists)
                     .ThenInclude(w => w.Watchlist)
+            .OrderByDescending (r => r.DateRated)          //son izlenenleri alıyoruz
             .Take(5)                                 //son 5 filmi alıyoruz
             .Select(r => new MovieInteractionViewModel
             {
@@ -77,6 +78,7 @@ namespace Cinemory.Controllers
             .Include(c => c.Movie)
                 .ThenInclude(m => m.Watchlists)
                     .ThenInclude(w => w.Watchlist)
+                    .OrderByDescending(c => c.DateAdded) // Watchlist üzerinden son eklenenleri alıyoruz
                     .Take(5) 
             .Select(c => new MovieInteractionViewModel
             {
