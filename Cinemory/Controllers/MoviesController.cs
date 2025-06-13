@@ -37,13 +37,13 @@ namespace Cinemory.Controllers
         }
 
         // GET:PublicIndex - kullanıcılar bu sayfayı görecek
-        [AllowAnonymous] 
+        [AllowAnonymous]
         public async Task<IActionResult> PublicIndex()
         {
             var movies = await _context.Movies
                 .Include(m => m.Director)
                 .Include(m => m.Profile)
-                .OrderByDescending(m=>m.Name)
+                .OrderByDescending(m => m.Name)
                 .ToListAsync();
 
             return View(movies); // PublicIndex.cshtml adlı View dosyasına gider
@@ -295,7 +295,7 @@ namespace Cinemory.Controllers
 
             if (watchlist == null)              // Eğer hiç yoksa oluştur
             {
-                
+
                 watchlist = new Watchlist
                 {
                     UserId = userId,
@@ -310,7 +310,7 @@ namespace Cinemory.Controllers
 
 
             // Yoksa listeye ekle
-            if (!IsInWatchlist)
+            if (!IsInWatchlist && model.IsInWatchlist)
             {
                 watchlist.Movies.Add(new MovieWatchlistConnection
                 {
