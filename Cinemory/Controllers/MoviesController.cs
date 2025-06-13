@@ -76,7 +76,7 @@ namespace Cinemory.Controllers
             var scores = await _context.Ratings
             .Where(r => r.MovieId == id)
             .Select(r => r.Score)
-            .ToListAsync(); // ✔ SQL'e çevrilebilir
+            .ToListAsync(); 
 
             double average = scores.Any() ? scores.Average() : 0;
 
@@ -86,7 +86,11 @@ namespace Cinemory.Controllers
                 movie.Profile.AverageRating = Math.Round(average, 1);
             }
 
+            
+
             return View(movie);
+
+
         }
 
         // GET:Create

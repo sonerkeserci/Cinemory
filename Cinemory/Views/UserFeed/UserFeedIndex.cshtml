@@ -38,7 +38,11 @@
             @foreach (var movie in Model.LastWatched)
             {
                 <div class="feed-card">
-                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <a asp-controller="Movies"
+					   asp-action="Details"
+					   asp-route-id="@movie.MovieId">
+						<img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+					</a>
                     <div class="feed-title-overlay">
                         @movie.Name
                     </div>
@@ -53,7 +57,11 @@
             @foreach (var movie in Model.Watchlisted)
             {
                 <div class="feed-card">
-                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <a asp-controller="Movies"
+                       asp-action="Details"
+                       asp-route-id="@movie.MovieId">
+                        <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    </a>
                     <div class="feed-title-overlay">
                         @movie.Name
                     </div>
@@ -70,7 +78,11 @@
             @foreach (var movie in Model.RecentlyAdded)
             {
                 <div class="feed-card">
-                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <a asp-controller="Movies"
+                       asp-action="Details"
+                       asp-route-id="@movie.MovieId">
+                        <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    </a>
                     <div class="feed-title-overlay">
                         @movie.Name
                     </div>
@@ -86,7 +98,11 @@
             @foreach (var movie in Model.Recommended)
             {
                 <div class="feed-card">
-                    <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    <a asp-controller="Movies"
+                       asp-action="Details"
+                       asp-route-id="@movie.MovieId">
+                        <img src="@("/images/posters/" + movie.PosterUrl)" class="feed-card-img" />
+                    </a>
                     <div class="feed-title-overlay">
                         @movie.Name
                     </div>
