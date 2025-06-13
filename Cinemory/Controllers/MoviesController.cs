@@ -331,16 +331,25 @@ namespace Cinemory.Controllers
             }
 
             // Bu movie zaten listede mi?
-            bool IsInWatchlist = watchlist.Movies?.Any(m => m.MovieId == model.MovieId) ?? false;
+            bool alreadyInWatchlist = watchlist.Movies?.Any(m => m.MovieId == model.MovieId) ?? false;
 
 
             // Yoksa listeye ekle
-            if (!IsInWatchlist && model.IsInWatchlist)    //koşul böyle yazılmazsa her türlü submitte otomatik watchliste atıyor
+            if (!alreadyInWatchlist && model.IsInWatchlist)    //koşul böyle yazılmazsa her türlü submitte otomatik watchliste atıyor
             {
                 watchlist.Movies.Add(new MovieWatchlistConnection
                 {
                     MovieId = model.MovieId
                 });
+            }
+
+            if (alreadyInWatchlist && !model.IsInWatchlist) // Tik işaretini kaldırınca watchlistten sil
+            {
+                var connection = watchlist.Movies.FirstOrDefault(m => m.MovieId == model.MovieId);
+                if (connection != null)
+                {
+                    watchlist.Movies.Remove(connection);
+                }
             }
 
 
