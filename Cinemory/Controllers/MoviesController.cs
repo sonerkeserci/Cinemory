@@ -76,7 +76,7 @@ namespace Cinemory.Controllers
             var scores = await _context.Ratings
             .Where(r => r.MovieId == id)
             .Select(r => r.Score)
-            .ToListAsync(); 
+            .ToListAsync();
 
             double average = scores.Any() ? scores.Average() : 0;
 
@@ -302,13 +302,32 @@ namespace Cinemory.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var username = _userManager.GetUserName(User);
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
 
             // FAVORITE MOVIE
-            if (model.IsFavorite)
-            {
-                if (!_context.FavoriteMovies.Any(f => f.MovieId == model.MovieId && f.UserId == userId))
+
+            /*Favori kontrol*/
+            var alreadyFavorited = _context.FavoriteMovies.Any(f => f.MovieId == model.MovieId && f.UserId == userId);
+
+            if (!alreadyFavorited && model.IsFavorite)
+            { 
+                _context.FavoriteMovies.Add(new FavoriteMovie
                 {
-                    _context.FavoriteMovies.Add(new FavoriteMovie { MovieId = model.MovieId, UserId = userId });
+                    MovieId = model.MovieId,
+                    UserId = userId
+                });
+            }
+            
+            if (alreadyFavorited && !model.IsFavorite) // Favori işaretini kaldırınca sil
+            {
+                var favorite = await _context.FavoriteMovies
+                    .FirstOrDefaultAsync(f => f.MovieId == model.MovieId && f.UserId == userId);
+                if (favorite != null)
+                {
+                    _context.FavoriteMovies.Remove(favorite);
                 }
             }
 
