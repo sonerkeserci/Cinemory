@@ -86,7 +86,28 @@ namespace Cinemory.Controllers
                 movie.Profile.AverageRating = Math.Round(average, 1);
             }
 
-            
+            // Viewbagde kullanmak için rating, review, fav, watchlist verilerini çekiyorum çünkü interact ın get kısmında işime yaraycak ufak bir iş
+            var userId = _userManager.GetUserId(User);
+
+            var rating = await _context.Ratings
+                .FirstOrDefaultAsync(r => r.MovieId == id && r.UserId == userId);
+
+            var review = await _context.Reviews
+                .FirstOrDefaultAsync(r => r.MovieId == id && r.UserId == userId);
+
+            var isFavorite = await _context.FavoriteMovies
+                .AnyAsync(f => f.MovieId == id && f.UserId == userId);
+
+            var isInWatchList = await _context.Watchlists
+                .Where(w => w.UserId == userId)
+                .SelectMany(w => w.Movies)
+                .AnyAsync(m => m.MovieId == id);
+
+            // ViewBag ile taşı 
+            ViewBag.Rating = rating?.Score;
+            ViewBag.Review = review?.Entry;
+            ViewBag.IsFavorite = isFavorite;
+            ViewBag.IsInWatchList = isInWatchList;
 
             return View(movie);
 

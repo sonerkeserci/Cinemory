@@ -51,7 +51,8 @@
 				<form asp-controller="Movies" asp-action="Interact" method="post" style="width: 85%; ">
 					@Html.AntiForgeryToken()
 					<input type="hidden" name="MovieId" value="@Model.Id" />
-					<input type="hidden" name="Rating" id="ratingInput" value="0" />
+
+					<input type="hidden" name="Rating" id="ratingInput" value="@ViewBag.Rating ?? 0" />
 
 					<div class="mb-2">
 						<label><strong>Rate:</strong></label>
@@ -64,18 +65,18 @@
 					</div>
 
 					<div class="form-check">
-						<input type="checkbox" name="IsFavorite" id="favCheck" value="true" />
+						<input type="checkbox" name="IsFavorite" id="favCheck" value="true" @(ViewBag.IsFavorite == true ? "checked" : "") />
 						<label class="form-check-label" style="font-weight:bold" for="favCheck">Add to Favorites</label>
 					</div>
 
 					<div class="form-check mt-2">
-						<input type="checkbox" name="IsInWatchList" id="wlCheck" value="true" />
+						<input type="checkbox" name="IsInWatchList" id="wlCheck" value="true" @(ViewBag.IsInWatchList == true ? "checked" : "") />
 						<label class="form-check-label" style="font-weight:bold" for="wlCheck">Add to Watchlist</label>
 					</div>
 
 					<div class="form-group mt-3">
 						<label style="font-weight:bold"for="reviewText">Review:</label>
-						<textarea name="Review" id="reviewText" class="form-control" rows="3" placeholder="Write your thoughts..."></textarea>
+						<textarea name="Review" id="reviewText" class="form-control" rows="3" placeholder="Write your thoughts..." @ViewBag.Review></textarea>
 					</div>
 
 					<button type="submit" class="submit-button mt-3">Submit</button>
@@ -113,6 +114,14 @@
 <script>
 	const stars = document.querySelectorAll('.star');
 	const ratingInput = document.getElementById('ratingInput');
+
+	// User daha önceden yıldızlamışsa onları göstermek için
+	document.addEventListener('DOMContentLoaded', () => {   //html yüklendikten sonra burası çalışır
+		const val = parseInt(ratingInput.value);   //herhangi bir ratininput varsa burdan alır... viewbagde getirmiştik
+		stars.forEach(s => {
+			s.classList.toggle('selected', parseInt(s.dataset.value) <= val);
+		});
+	});
 
 	stars.forEach(star => {
 		star.addEventListener('mouseover', () => {
