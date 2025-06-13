@@ -310,7 +310,7 @@ namespace Cinemory.Controllers
 
 
             // Yoksa listeye ekle
-            if (!IsInWatchlist && model.IsInWatchlist)
+            if (!IsInWatchlist && model.IsInWatchlist)    //koşul böyle yazılmazsa her türlü submitte otomatik watchliste atıyor
             {
                 watchlist.Movies.Add(new MovieWatchlistConnection
                 {
@@ -361,10 +361,5 @@ namespace Cinemory.Controllers
         }
 
 
-
-        private bool MovieExists(int id)
-        {
-            return _context.Movies.Any(e => e.Id == id);
-        }
     }
 }
