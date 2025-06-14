@@ -33,7 +33,7 @@
 </section>
 
 <section class="favorites-section">
-    <h3 class="section-header" onclick="window.location.href='@Url.Action("AllFavorites", "UserProfile", new { id = Model.UserId })'">★ Favorites</h3>
+    <h3 class="section-header" onclick="window.location.href='@Url.Action("UserFavorites", "UserProfile", new { id = Model.UserId })'">★ Favorites</h3>
     <div class="section-container">
         @foreach (var fav in Model.FavoriteMovies.OrderByDescending(f => f.FavoritedAt))
         {
@@ -53,7 +53,7 @@
 </section>
 
 <section class="watchlist-section">
-    <h3 class="section-header" onclick="window.location.href='@Url.Action("AllWatchlist", "UserProfile", new { id = Model.UserId })'">📌 Watchlist</h3>
+    <h3 class="section-header" onclick="window.location.href='@Url.Action("UserWatchlist", "UserProfile", new { id = Model.UserId })'">📌 Watchlist</h3>
     <div class="section-container">
         @foreach (var item in Model.UserWatchlist.OrderByDescending(w => w.DateAdded))
         {

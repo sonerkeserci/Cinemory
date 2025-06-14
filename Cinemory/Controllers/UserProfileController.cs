@@ -18,6 +18,7 @@ namespace Cinemory.Controllers
             _userManager = userManager;
         }
 
+        /*UserProfile görünümü*/
         public async Task<IActionResult> UserProfileIndex()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -71,6 +72,54 @@ namespace Cinemory.Controllers
             return View("UserProfileIndex", viewModel);
         }
 
+        /*Tüm reviewleri gösterme işi*/
+        public async Task<IActionResult> UserReviews(string id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+            var reviews = await _context.Reviews
+                .Include(r => r.Movie)
+                .Where(r => r.UserId == user.Id)
+                .ToListAsync();
+            return View("UserReviews", reviews);
+        }
+
+        /*Tüm watchlistleri gösterme işi*/
+        public async Task<IActionResult> UserWatchlists(string id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+            var watchlists = await _context.MovieWatchlistConnections
+                .Include(m => m.Movie)
+                .Include(m => m.Watchlist)
+                .Where(m => m.Watchlist.UserId == user.Id)
+                .ToListAsync();
+            return View("UserWatchlists", watchlists);
+        }
+
+        /*Tüm favorileri gösterme işi*/
+        public async Task<IActionResult> UserFavorites(string id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+            var favorites = await _context.FavoriteMovies
+                .Include(f => f.Movie)
+                .Where(f => f.UserId == user.Id)
+                .ToListAsync();
+            return View("UserFavorites", favorites);
+        }
+
+        /*Tüm ratingleri gösterme işi*/
+        public async Task<IActionResult> UserMovies(string id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+            var ratings = await _context.Ratings
+                .Include(r => r.Movie)
+                .Where(r => r.UserId == user.Id)
+                .ToListAsync();
+            return View("UserMovies", ratings);
+        }
 
     }
 
