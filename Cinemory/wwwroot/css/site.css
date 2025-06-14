@@ -13,6 +13,20 @@ html {
     font-weight: 400;
     font-style: normal;
 }
+/*Linklene þeylerde bunu kullancam*/
+.userlink {
+    color: white; 
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+}
+
+    .userlink:hover {
+        color: #ff7f50; 
+        text-decoration:blink;
+    }
+
+
 /*SPECIAL HEADER*/
 
 .specialheader {
@@ -247,7 +261,7 @@ html {
 
 .movielist-row {
     background-color: #1f1f2f;
-    color: #eee;
+    color: #dfc8de;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     margin-bottom: 8px;
 }

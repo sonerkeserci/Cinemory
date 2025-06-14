@@ -36,12 +36,6 @@
 		}
 
 		<li class="nav-item">
-			<a class="nav-link"
-			   asp-controller="Accounts"
-			   asp-action="Members">MEMBERS</a>
-		</li>
-
-		<li class="nav-item">
 			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
 				@Html.AntiForgeryToken()
 				<button type="submit" class="nav-link text-uppercase">Sign Out</button>
@@ -76,7 +70,7 @@
 			<a class="nav-link" asp-controller="Movies" asp-action="PublicIndex">Films</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" asp-controller="Watchists" asp-action="Index">Lists</a>
+			<a class="nav-link" asp-controller="Dashboard" asp-action="Lists">Lists</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>

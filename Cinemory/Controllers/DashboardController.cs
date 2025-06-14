@@ -3,11 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cinemory.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class DashboardController : Controller
     {
-        
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
+        {
+            return View();
+        }
+
+
+        public IActionResult Lists()
         {
             return View();
         }

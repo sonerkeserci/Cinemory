@@ -5,7 +5,8 @@
 	Layout = "_Layout";
 }
 <section class="profile-header">
-    <img src="@Model.ProfilePictureUrl" alt="" class="profile-picture" />
+    <img src="/images/@(string.IsNullOrEmpty(Model.ProfilePictureUrl) ? "avatars/_no_avatar.png" : $"posters/{Model.ProfilePictureUrl}")" class="profile-picture" />
+    
     <div class="user-meta">
         <h2>@Model.UserName</h2>        
         @if (!string.IsNullOrWhiteSpace(Model.Bio))

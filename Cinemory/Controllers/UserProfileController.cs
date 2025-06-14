@@ -19,7 +19,8 @@ namespace Cinemory.Controllers
         }
 
         /*UserProfile görünümü*/
-        public async Task<IActionResult> UserProfileIndex()
+        [Route("UserProfile/UserProfileIndex/{id}")]
+        public async Task<IActionResult> UserProfileIndex(string id)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
@@ -103,9 +104,11 @@ namespace Cinemory.Controllers
                 }
             }
 
+            var sortedList = watchlists
+           .OrderByDescending(w => w.Movie.Profile?.AverageRating ?? 0)
+           .ToList();
 
-
-            return View("UserWatchlist", watchlists);
+            return View("UserWatchlist", sortedList);
         }
 
         /*Tüm favorileri gösterme işi*/
@@ -161,15 +164,19 @@ namespace Cinemory.Controllers
                 .GroupBy(r => r.MovieId)
                 .Select(g => new { g.Key, Avg = g.Average(r => r.Score) })
                 .ToDictionaryAsync(x => x.Key, x => x.Avg);
+
             foreach (var rating in ratings)
             {
-                if (rating.Movie?.Profile != null && avgDict.TryGetValue(rating.MovieId, out double avg))
-                {
+                if (rating.Movie?.Profile != null && avgDict.TryGetValue(rating.MovieId, out double avg))  //bu fonksiyon ilk pramatredeki koşul sağlanınca 
+                {                                                                                          //yanı rating.MovieId anahtarı var ise anahtarın değerini ikinci parametreye atar
                     rating.Movie.Profile.AverageRating = avg;
                 }
             }
 
-            return View("UserMovies", ratings);
+            var sortedList = ratings
+              .OrderByDescending(w => w.Movie.Profile?.AverageRating ?? 0)
+              .ToList();
+            return View("UserMovies", sortedList);
         }
 
         /*Tüm reviewleri gösterme işi*/
