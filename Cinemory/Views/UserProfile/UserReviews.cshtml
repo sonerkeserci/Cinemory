@@ -1,0 +1,16 @@
+﻿@model ICollection<Review>
+
+<h2 class="specialheader">Your Reviews</h2>
+
+
+@foreach (var review in Model)
+{
+    var movie = review.Movie;
+    <div class="review-entry">
+        <img src="~/images/posters/@(string.IsNullOrEmpty(movie.Profile.PosterUrl) ? "_no_poster.png" : movie.Profile.PosterUrl)" class="review-poster" />
+        <div class="review-text">
+            <h4>@movie.Name</h4>
+            <p>@review.Entry</p>
+        </div>
+    </div>
+}

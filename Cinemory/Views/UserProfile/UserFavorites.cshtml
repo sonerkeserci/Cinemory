@@ -1,0 +1,18 @@
+﻿@model ICollection<FavoriteMovie>
+
+<h2 class="specialheader">Favorites</h2>
+
+<div class="movielist-grid">
+    @foreach (var fav in Model)
+    {
+        var movie = fav.Movie;
+        <div class="movielist-card">
+            <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">
+                <img src="~/images/posters/@(string.IsNullOrEmpty(movie.Profile.PosterUrl) ? "_no_poster.png" : movie.Profile.PosterUrl)" class="feed-card-img" />
+            </a>
+            <div class="movielist-info">
+                @movie.Name
+            </div>
+        </div>
+    }
+</div>

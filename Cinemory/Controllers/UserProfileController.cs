@@ -72,29 +72,40 @@ namespace Cinemory.Controllers
             return View("UserProfileIndex", viewModel);
         }
 
-        /*Tüm reviewleri gösterme işi*/
-        public async Task<IActionResult> UserReviews(string id)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return NotFound();
-            var reviews = await _context.Reviews
-                .Include(r => r.Movie)
-                .Where(r => r.UserId == user.Id)
-                .ToListAsync();
-            return View("UserReviews", reviews);
-        }
 
-        /*Tüm watchlistleri gösterme işi*/
-        public async Task<IActionResult> UserWatchlists(string id)
+
+        /*Tüm watchlisti gösterme işi*/
+        public async Task<IActionResult> UserWatchlist(string id)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
             var watchlists = await _context.MovieWatchlistConnections
                 .Include(m => m.Movie)
+                .ThenInclude(m => m.Profile)
+                .Include(m => m.Movie)
+                .ThenInclude(m => m.Director)
                 .Include(m => m.Watchlist)
                 .Where(m => m.Watchlist.UserId == user.Id)
                 .ToListAsync();
-            return View("UserWatchlists", watchlists);
+
+
+            var avgDict = await _context.Ratings
+                .GroupBy(r => r.MovieId)
+                .Select(g => new { g.Key, Avg = g.Average(r => r.Score) })
+                .ToDictionaryAsync(x => x.Key, x => x.Avg);
+
+            // her film için ortalama rating'i hesapla ve profile'a koy
+            foreach (var conn in watchlists)
+            {
+                if (conn.Movie?.Profile != null && avgDict.TryGetValue(conn.MovieId, out double avg))
+                {
+                    conn.Movie.Profile.AverageRating = Math.Round(avg, 1);
+                }
+            }
+
+
+
+            return View("UserWatchlist", watchlists);
         }
 
         /*Tüm favorileri gösterme işi*/
@@ -104,8 +115,30 @@ namespace Cinemory.Controllers
             if (user == null) return NotFound();
             var favorites = await _context.FavoriteMovies
                 .Include(f => f.Movie)
+                .ThenInclude(m => m.Profile)
                 .Where(f => f.UserId == user.Id)
                 .ToListAsync();
+
+            var avgDict = await _context.Ratings
+                .GroupBy(r => r.MovieId)
+                .Select(g => new { g.Key, Avg = g.Average(r => r.Score) })
+                .ToDictionaryAsync(x => x.Key, x => x.Avg);
+
+            var ratings = await _context.Ratings
+                .Include(r => r.Movie)
+                .ThenInclude(m => m.Profile)
+                .Include(r => r.Movie)
+                .ThenInclude(m => m.Director)
+                .Where(r => r.UserId == user.Id)
+                .ToListAsync();
+            foreach (var rating in ratings)
+            {
+                if (rating.Movie?.Profile != null && avgDict.TryGetValue(rating.MovieId, out double avg))
+                {
+                    rating.Movie.Profile.AverageRating = avg;
+                }
+            }
+
             return View("UserFavorites", favorites);
         }
 
@@ -114,11 +147,42 @@ namespace Cinemory.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
+
             var ratings = await _context.Ratings
                 .Include(r => r.Movie)
+                .ThenInclude(m => m.Profile)
+                .Include(r => r.Movie)
+                .ThenInclude(m => m.Director)
                 .Where(r => r.UserId == user.Id)
                 .ToListAsync();
+
+            // rating'leri movieId'ye göre gruplayıp ortalama hesapbı
+            var avgDict = await _context.Ratings
+                .GroupBy(r => r.MovieId)
+                .Select(g => new { g.Key, Avg = g.Average(r => r.Score) })
+                .ToDictionaryAsync(x => x.Key, x => x.Avg);
+            foreach (var rating in ratings)
+            {
+                if (rating.Movie?.Profile != null && avgDict.TryGetValue(rating.MovieId, out double avg))
+                {
+                    rating.Movie.Profile.AverageRating = avg;
+                }
+            }
+
             return View("UserMovies", ratings);
+        }
+
+        /*Tüm reviewleri gösterme işi*/
+        public async Task<IActionResult> UserReviews(string id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+            var reviews = await _context.Reviews
+                .Include(r => r.Movie)
+                .ThenInclude(m => m.Profile)
+                .Where(r => r.UserId == user.Id)
+                .ToListAsync();
+            return View("UserReviews", reviews);
         }
 
     }

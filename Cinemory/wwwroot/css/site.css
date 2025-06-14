@@ -13,6 +13,27 @@ html {
     font-weight: 400;
     font-style: normal;
 }
+/*SPECIAL HEADER*/
+
+.specialheader {
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 30px 0 30px 0;
+    color: #1c1c2e; /* koyu gri-siyah */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    padding-left: 10px;
+    border-left: 6px solid #6643b5; /* sol þerit rengi */
+    transition: all 0.3s ease-in-out;
+}
+
+    .specialheader:hover {
+        color: #8e7fff;
+        border-left-color: #8e7fff;
+        letter-spacing: 1.5px;
+    }
+
 
 /*UserProfile*/
 /* === Profile Header === */
@@ -137,6 +158,135 @@ html {
     .section-header:hover {
         color: #6643b5;
     }
+
+
+
+ /* FILM LISTELEYECEÐÝM ZAMAN KULLANACAÐIM ÞABLON CSS */
+ /* GRIDLÝ GÖSTERÝM */
+
+/* Grid Yapýsý */
+.movielist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 2px;
+}
+
+/* Kart */
+.movielist-card {
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+    height: 300px;
+    margin-top: 19px;
+    background-color: #1e1e2f;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    color: #eee;
+}
+
+    .movielist-card:hover {
+        transform: scale(1.03);
+    }
+
+    /* Poster */
+    .movielist-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+/* Overlay Bilgiler */
+.movielist-info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    color: #dadce9;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(6px);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.movielist-card:hover .movielist-info {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/*MOVIELIST SIRALI LÝSTELÝ GÖRÜNÜM */
+
+
+.movielist-header,
+.movielist-row {
+    display: grid;
+    grid-template-columns: 200px 150px 150px 150px 150px;
+    align-items: center;
+    gap: 50px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    max-width:1000px;
+}
+
+.movielist-header {
+    font-family: GraphikWeb, -apple-system, BlinkMacSystemFont, Segoe UI, Hiragino Sans, Meiryo, sans-serif, ColorEmoji;
+    background-color: #2a2a3d;
+    color: #aaa;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom:1rem;
+}
+
+.movielist-row {
+    background-color: #1f1f2f;
+    color: #eee;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    margin-bottom: 8px;
+}
+
+    .movielist-row:hover {
+        background-color: #292940;
+    }
+
+    .movielist-row img {
+        width: 80px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+
+.movielist-table {
+    width: 100%;
+    max-width: 1000px;
+    margin-left: 0rem;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.movielist-poster-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .movielist-poster-info img {
+        width: 60px;
+        height: 90px;
+        border-radius: 6px;
+        object-fit: cover;
+    }
+
+
+
 
 
 

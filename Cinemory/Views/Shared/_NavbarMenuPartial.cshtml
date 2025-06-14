@@ -93,9 +93,10 @@
 
 	else if (navMenu == "User Profile")
 	{
-	
+
 		<li class="nav-item">
-			<form asp-controller="Account" asp-action="Logout" method="post">
+			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
+				@Html.AntiForgeryToken()
 				<button type="submit" class="nav-link text-uppercase">Sign Out</button>
 			</form>
 		</li>

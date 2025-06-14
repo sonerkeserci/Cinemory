@@ -1,0 +1,32 @@
+﻿@model ICollection<Rating>
+
+<h2 class="specialheader">Movies You Watched</h2>
+
+
+<div class="movielist-header">
+    
+    <div>Movie</div>
+    <div>Release Year</div>
+    <div>Director</div>
+    <div>Average Rating</div>
+    <div>Your Rating</div>
+</div>
+
+<div class="movielist-table">
+    @foreach (var rating in Model)
+    {
+        var movie = rating.Movie;
+
+        <div class="movielist-row">
+            <div class="movielist-poster-info">
+                <img src="~/images/posters/@(string.IsNullOrEmpty(movie.Profile.PosterUrl) ? "_no_poster.png" : movie.Profile.PosterUrl)" alt="@movie.Name Poster" />
+                <span>@movie.Name</span>
+            </div>
+            <div>@movie.Year</div>
+            <div>@movie.Director?.FullName</div>
+            <div>@movie.Profile?.AverageRating?.ToString("0.0")</div>
+            <div>@rating.Score / 10</div>
+        </div>
+
+    }
+</div>
