@@ -13,6 +13,133 @@ html {
     font-weight: 400;
     font-style: normal;
 }
+
+/*UserProfile*/
+/* === Profile Header === */
+.profile-header {
+    background-color: #1e1e2f;
+    color: #a2a8d3;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid #444;
+    border-radius:0.5rem;
+    margin-left: -15rem;
+    margin-right: -15rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #333;
+    object-fit: cover;
+    border: 2px solid #666;
+}
+
+.user-meta h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 1.9rem;
+    color: #bf9cc2;
+}
+
+.user-meta p {
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+    color: #ccc;
+    gap:1rem;
+}
+
+/* === Stats Section === */
+.profile-stats {
+    display: flex;
+    justify-content: start;
+    gap: 2rem;  
+    margin-left: -15rem;
+}
+
+.stat-card {
+    background-color: #27293d;    
+    border-radius: 0.75rem;
+    padding: 1rem 2rem;
+    text-align: center;
+    width: 150px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+    text-decoration: none; /* remove underline from links */
+}
+    .stat-card a {
+        text-decoration: none; /* ensure links inside stat cards have no underline */
+        color: inherit; /* keep text color consistent */
+    }
+
+
+    .stat-card:hover {
+        background-color: #353857;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .stat-card h3 {
+        font-size: 1.2rem;
+        font-weight:700;
+        margin: 0;
+        color:#bf9cc2;
+    }
+
+    .stat-card p {
+        margin: 0;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        color: #a2a8d3;
+    }
+
+/* === Favorites & Watchlist Section === */
+.favorites-section, .watchlist-section {
+    margin-top:3rem;
+    margin-left: -15rem;
+    margin-right: -15rem;
+}
+
+.section-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1rem;
+    background-color: #27293d;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+    .section-container img {
+        width: 150px;
+        height: 210px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+.section-header {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #430f58;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+    text-transform: uppercase;
+}
+
+    .section-header:hover {
+        color: #6643b5;
+    }
+
+
+
  /* Movie interaction and average rating stars */
 .avg-star {
     background-color: #430f58;

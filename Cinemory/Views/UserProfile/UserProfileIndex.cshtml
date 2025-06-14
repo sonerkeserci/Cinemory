@@ -1,10 +1,73 @@
-﻿@{	
+﻿@using Cinemory.Models.ViewModels
+@model UserProfileViewModel
+@{
 	ViewBag.NavMenu = "User Profile";
 	Layout = "_Layout";
 }
+<section class="profile-header">
+    <img src="@Model.ProfilePictureUrl" alt="" class="profile-picture" />
+    <div class="user-meta">
+        <h2>@Model.UserName</h2>        
+        @if (!string.IsNullOrWhiteSpace(Model.Bio))
+        {
+            <p>@Model.Bio</p>
+        }
+        <p>Joined: @Model.JoinDate.ToShortDateString()</p>
+    </div>
+</section>
 
-<div class="container">
-	<h2 class="mb-4">Profile</h2>
 
+<section class="profile-stats">
+    <div class="stat-card">
+        <a href="@Url.Action("UserMovies", "UserProfile", new { id = Model.UserId })">
+            <h3>WATCHED</h3>
+            <p>@Model.TotalMoviesWatched</p>
+        </a>
+    </div>
+    <div class="stat-card">
+        <a href="@Url.Action("UserReviews", "UserProfile", new { id = Model.UserId })">
+            <h3>REVIEWS</h3>
+            <p>@Model.TotalReviewsWritten</p>
+        </a>
+    </div>
+</section>
 
-</div>
+<section class="favorites-section">
+    <h3 class="section-header" onclick="window.location.href='@Url.Action("AllFavorites", "UserProfile", new { id = Model.UserId })'">★ Favorites</h3>
+    <div class="section-container">
+        @foreach (var fav in Model.FavoriteMovies.OrderByDescending(f => f.FavoritedAt))
+        {
+			var Movie = fav.Movie;
+            <div class="feed-card">
+                <a asp-controller="Movies"
+                   asp-action="Details"
+                   asp-route-id="@Movie.Id">
+                    <img src="/images/@(string.IsNullOrEmpty(Movie.Profile?.PosterUrl) ? "posters/_no_poster.png" : $"posters/{Movie.Profile.PosterUrl}")" />
+                </a>
+                <div class="feed-title-overlay">
+					@Movie.Name
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="watchlist-section">
+    <h3 class="section-header" onclick="window.location.href='@Url.Action("AllWatchlist", "UserProfile", new { id = Model.UserId })'">📌 Watchlist</h3>
+    <div class="section-container">
+        @foreach (var item in Model.UserWatchlist.OrderByDescending(w => w.DateAdded))
+        {
+            var Movie = item.Movie;
+            <div class="feed-card">
+                <a asp-controller="Movies"
+                   asp-action="Details"
+                   asp-route-id="@Movie.Id">
+                    <img src="/images/@(string.IsNullOrEmpty(Movie.Profile?.PosterUrl) ? "posters/_no_poster.png" : $"posters/{Movie.Profile.PosterUrl}")" />
+                </a>
+                <div class="feed-title-overlay">
+                    @Movie.Name
+                </div>
+            </div>
+        }
+    </div>
+</section>

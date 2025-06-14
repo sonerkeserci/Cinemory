@@ -8,5 +8,8 @@
         public int MovieId { get; set; } //foreign key, Movie related
         public Movie? Movie { get; set; } //navigation, Movie reference
 
+        public DateTime FavoritedAt { get; set; } = DateTime.UtcNow;
+
+
     }
 }
