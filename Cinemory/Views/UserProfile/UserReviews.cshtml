@@ -10,9 +10,9 @@
             </div>
 
             <div class="review-content">
-                <a href="@Url.Action("Details", "Movie", new { id = review.Movie.Id })">
+				<a asp-controller="Movies" asp-action="Details" asp-route-id="@review.MovieId">
                     <img class="review-poster" src="~/images/posters/@(string.IsNullOrEmpty(review.Movie.Profile.PosterUrl) ? "_no_poster.png" : review.Movie.Profile.PosterUrl)" />
-                </a>
+				</a>
                 <p class="review-entry">@review.Entry</p>
             </div>
         </div>
