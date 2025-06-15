@@ -262,7 +262,7 @@ html {
 .movielist-header,
 .movielist-row {
     display: grid;
-    grid-template-columns: 200px 150px 150px 150px 150px;
+    grid-template-columns: 200px 150px 180px 120px 100px;
     align-items: center;
     gap: 50px;
     padding: 12px 20px;
@@ -305,7 +305,7 @@ html {
     margin-left: 0rem;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 .movielist-poster-info {
     display: flex;
