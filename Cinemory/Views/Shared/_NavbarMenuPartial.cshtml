@@ -28,8 +28,8 @@
 		{
 			<li class="nav-item">
 				<a class="nav-link text-danger"
-				   asp-controller="Dashboard"
-				   asp-action="Index">
+				asp-controller="Dashboard"
+				asp-action="Index">
 					ADMINISTRATORY: @username
 				</a>
 			</li>
@@ -43,62 +43,68 @@
 		</li>
 	}
 
-	@if (navMenu == "Landing")
+	else if (!isAdmin)
 	{
-		<li class="nav-item">
-			<a href="#" class="nav-link" id="openLoginModal">Sign In</a>
-		</li>
-		<li class="nav-item">
-			<a href="#" class="nav-link" id="openRegisterModal">Register</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
-
-		</li>
-	}
-
-	else if (isAdmin == false && (navMenu == "User Feed" || navMenu == "Movie Details"))
-	{
-
-		@if (username != null)
+		if (navMenu == "User Feed" || navMenu == "Movie Details")
 		{
+
+			if (username != null)
+			{
+				<li class="nav-item">
+					<a class="nav-link"
+					   style="color:#af32e4"
+					   asp-controller="UserProfile"
+					   asp-action="UserProfileIndex"
+					   asp-route-id="@user.Id">@username</a>
+				</li>
+			}
 			<li class="nav-item">
-				<a class="nav-link"
-				   style="color:#af32e4"
-				   asp-controller="UserProfile" 
-				   asp-action="UserProfileIndex"
-				   asp-route-id="@user.Id">@username</a>
+				<a class="nav-link" asp-controller="Movies" asp-action="PublicIndex">Films</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" asp-controller="Dashboard" asp-action="Lists">Lists</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+
+			</li>
+			<li class="nav-item">
+				<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
+					@Html.AntiForgeryToken()
+					<button type="submit" class="nav-link text-uppercase">Sign Out</button>
+				</form>
+			</li>
+
+		}
+
+		if (navMenu == "User Profile")
+		{
+
+			<li class="nav-item">
+				<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
+					@Html.AntiForgeryToken()
+					<button type="submit" class="nav-link text-uppercase">Sign Out</button>
+				</form>
 			</li>
 		}
-		<li class="nav-item">
-			<a class="nav-link" asp-controller="Movies" asp-action="PublicIndex">Films</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" asp-controller="Dashboard" asp-action="Lists">Lists</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
-
-		</li>
-		<li class="nav-item">
-			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
-				@Html.AntiForgeryToken()
-				<button type="submit" class="nav-link text-uppercase">Sign Out</button>
-			</form>
-		</li>
-
+		
 	}
 
-	else if (navMenu == "User Profile")
+	@if (navMenu == "Landing")
 	{
+	<li class="nav-item">
+		<a href="#" class="nav-link" id="openLoginModal">Sign In</a>
+	</li>
+	<li class="nav-item">
+		<a href="#" class="nav-link" id="openRegisterModal">Register</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" asp-controller="Home" asp-action="About">About</a>
 
-		<li class="nav-item">
-			<form asp-controller="Accounts" asp-action="Logout" method="post" class="d-inline">
-				@Html.AntiForgeryToken()
-				<button type="submit" class="nav-link text-uppercase">Sign Out</button>
-			</form>
-		</li>
+	</li>
 	}
+
+	
 	else
 	{
 

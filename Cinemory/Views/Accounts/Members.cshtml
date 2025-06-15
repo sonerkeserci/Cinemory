@@ -1,8 +1,9 @@
-﻿
-@model List<AppUser>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Cinemory.Models.AppUser> SignInManager
+@inject UserManager<Cinemory.Models.AppUser> UserManager
+
 @{
-	ViewData["Title"] = "About";
-	ViewBag.NavMenu = "Landing";
+	ViewData["Title"] = "Members";
 	ViewData["HideNavMenu"] = true; // 👈 Bu satır menüyü yok eder
 }
 
@@ -16,18 +17,25 @@
 </div>
 
 <div class="movielist-table">
-	@foreach (var user in Model)
+	@foreach (var user in Model )
 	{
-		<div class="movielist-row">
-			<div class="usercell">
-				<a asp-controller="UserProfile" asp-action="UserProfileIndex" asp-route-id="@user.Id" class="userlink">
-					<div>@user.UserName</div>
-				</a>
-			</div>
+		if ( await UserManager.IsInRoleAsync(user,"Admin") )
+		{
+			continue; 
+		}
+		else
+		{
+			<div class="movielist-row">
+				<div class="usercell">
+					<a asp-controller="UserProfile" asp-action="UserProfileIndex" asp-route-id="@user.Id" class="userlink">
+						<div>@user.UserName</div>
+					</a>
+				</div>
 
-			<div>@user.Email</div>
-			<div>@user.Profile?.JoinDate.ToString("dd/MM/yyyy")</div>
-		</div>
+				<div>@user.Email</div>
+				<div>@user.Profile?.JoinDate.ToString("dd MMM yyyy HH:mm")</div>
+			</div>
+		}
 
 	}
 </div>

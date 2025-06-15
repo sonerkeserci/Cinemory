@@ -92,9 +92,8 @@ html {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background-color: #333;
-    object-fit: cover;
-    border: 2px solid #666;
+    object-fit:cover;
+    border: 3px solid;
 }
 
 .user-meta h2 {
@@ -193,6 +192,7 @@ html {
     .section-header:hover {
         color: #6643b5;
     }
+
 
 
 
@@ -467,6 +467,7 @@ html {
 }
 
     .welcome-header span {
+        text-transform: capitalize;
         color: #af32e4;
         font-weight: 700;
     }

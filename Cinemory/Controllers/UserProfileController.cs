@@ -62,7 +62,7 @@ namespace Cinemory.Controllers
                 UserName = user.UserName,
                 JoinDate = userProfile?.JoinDate ?? DateTime.MinValue,
                 ProfilePictureUrl = userProfile?.AvatarUrl ?? "No avatar.",
-                Bio = userProfile?.Bio ?? "No bio yet.",
+                Bio = userProfile?.Bio ?? "",
                 TotalMoviesWatched = ratings.Count,
                 TotalReviewsWritten = reviews.Count,
                 UserWatchlist = watchlistConnections,
@@ -80,8 +80,9 @@ namespace Cinemory.Controllers
         /*Tüm watchlisti gösterme işi*/
         public async Task<IActionResult> UserWatchlist(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
+
             var watchlists = await _context.MovieWatchlistConnections
                 .Include(m => m.Movie)
                 .ThenInclude(m => m.Profile)
@@ -116,8 +117,10 @@ namespace Cinemory.Controllers
         /*Tüm favorileri gösterme işi*/
         public async Task<IActionResult> UserFavorites(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
+
+
             var favorites = await _context.FavoriteMovies
                 .Include(f => f.Movie)
                 .ThenInclude(m => m.Profile)
@@ -150,7 +153,7 @@ namespace Cinemory.Controllers
         /*Tüm ratingleri gösterme işi*/
         public async Task<IActionResult> UserMovies(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
 
             var ratings = await _context.Ratings
@@ -184,8 +187,9 @@ namespace Cinemory.Controllers
         /*Tüm reviewleri gösterme işi*/
         public async Task<IActionResult> UserReviews(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
+
             var reviews = await _context.Reviews
                 .Include(r => r.Movie)
                 .ThenInclude(m => m.Profile)

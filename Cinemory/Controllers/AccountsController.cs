@@ -1,8 +1,10 @@
-﻿using Cinemory.Data;
+﻿using System.Threading.Tasks;
+using Cinemory.Data;
 using Cinemory.Models;
 using Cinemory.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cinemory.Controllers
 {
@@ -79,9 +81,17 @@ namespace Cinemory.Controllers
         }
 
         [HttpGet]
-        public IActionResult Members()
+        public async Task<IActionResult> Members()
         {
-            var users = _userManager.Users.ToList();
+            var users = await _context.Users
+                .Include(u => u.Profile) // UserProfile ile ilişkiyi dahil et
+                .ToListAsync();
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+
             return View(users);
         }
 
