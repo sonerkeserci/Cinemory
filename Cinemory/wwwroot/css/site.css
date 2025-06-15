@@ -193,6 +193,62 @@ html {
         color: #6643b5;
     }
 
+/* REVIEW BOX*/
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.review-box {
+    background-color: #1f1f2f;
+    border-radius: 1rem;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    color: #f0eaff;
+    transition: transform 0.2s ease;
+}
+
+    .review-box:hover {
+        transform: scale(1.02);
+    }
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #c3b4ff;
+    margin-bottom: 0.8rem;
+}
+
+.review-content {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.review-poster {
+    width: 70px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.2s ease;
+}
+
+    .review-poster:hover {
+        opacity: 0.85;
+    }
+
+.review-entry {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    padding-right: 0.5rem;
+}
+
 
 
 

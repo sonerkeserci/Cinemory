@@ -194,6 +194,7 @@ namespace Cinemory.Controllers
                 .Include(r => r.Movie)
                 .ThenInclude(m => m.Profile)
                 .Where(r => r.UserId == user.Id)
+                .OrderByDescending(r => r.CreatedAt) // en yeni reviewler en üstte olacak şekilde
                 .ToListAsync();
             return View("UserReviews", reviews);
         }

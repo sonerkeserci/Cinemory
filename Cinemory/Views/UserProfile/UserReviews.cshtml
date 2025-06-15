@@ -1,16 +1,20 @@
-﻿@model ICollection<Review>
+﻿@model List<Review>
 
-<h2 class="specialheader">Reviews</h2>
+<div class="reviews-container">
+    @foreach (var review in Model)
+    {
+        <div class="review-box">
+            <div class="review-header">
+                <span class="username">@review.User.UserName</span>
+                <span class="date">@review.CreatedAt.ToString("dd MMM yyyy HH:mm")</span>
+            </div>
 
-
-@foreach (var review in Model)
-{
-    var movie = review.Movie;
-    <div class="review-entry">
-        <img src="~/images/posters/@(string.IsNullOrEmpty(movie.Profile.PosterUrl) ? "_no_poster.png" : movie.Profile.PosterUrl)" class="review-poster" />
-        <div class="review-text">
-            <h4>@movie.Name</h4>
-            <p>@review.Entry</p>
+            <div class="review-content">
+                <a href="@Url.Action("Details", "Movie", new { id = review.Movie.Id })">
+                    <img class="review-poster" src="~/images/posters/@(string.IsNullOrEmpty(review.Movie.Profile.PosterUrl) ? "_no_poster.png" : review.Movie.Profile.PosterUrl)" />
+                </a>
+                <p class="review-entry">@review.Entry</p>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
