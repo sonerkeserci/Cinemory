@@ -11,10 +11,10 @@
 @{
 	string? username = null;
 	bool isAdmin = false;
+	var user = await UserManager.GetUserAsync(User);
 
 	if (SignInManager.IsSignedIn(User))
 	{
-		var user = await UserManager.GetUserAsync(User);
 		username = user?.UserName;
 		isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
 	}
@@ -57,13 +57,17 @@
 		</li>
 	}
 
-	else if (isAdmin==false && (navMenu == "User Feed" || navMenu == "Movie Details"))
+	else if (isAdmin == false && (navMenu == "User Feed" || navMenu == "Movie Details"))
 	{
 
 		@if (username != null)
 		{
 			<li class="nav-item">
-				<a class="nav-link" style="color:#af32e4; text-decoration-style:dotted" asp-controller="UserProfile" asp-action="UserProfileIndex">@username</a>
+				<a class="nav-link"
+				   style="color:#af32e4"
+				   asp-controller="UserProfile" 
+				   asp-action="UserProfileIndex"
+				   asp-route-id="@user.Id">@username</a>
 			</li>
 		}
 		<li class="nav-item">

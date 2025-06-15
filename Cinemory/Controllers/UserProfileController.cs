@@ -19,11 +19,13 @@ namespace Cinemory.Controllers
         }
 
         /*UserProfile görünümü*/
-        [Route("UserProfile/UserProfileIndex/{id}")]
         public async Task<IActionResult> UserProfileIndex(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return NotFound();
+            var user = await _context.Users
+                .Include(u => u.Profile)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+                return NotFound();
 
             var userProfile = await _context.UserProfiles
                 .Include(up => up.User)
@@ -58,7 +60,7 @@ namespace Cinemory.Controllers
             {
                 UserId = user.Id,
                 UserName = user.UserName,
-                JoinDate = (DateTime)(userProfile?.JoinDate),
+                JoinDate = userProfile?.JoinDate ?? DateTime.MinValue,
                 ProfilePictureUrl = userProfile?.AvatarUrl ?? "No avatar.",
                 Bio = userProfile?.Bio ?? "No bio yet.",
                 TotalMoviesWatched = ratings.Count,

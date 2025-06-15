@@ -19,8 +19,10 @@
 
         <div class="movielist-row">
             <div class="movielist-poster-info">
-                <img src="~/images/posters/@(string.IsNullOrEmpty(movie.Profile.PosterUrl) ? "_no_poster.png" : movie.Profile.PosterUrl)" alt="@movie.Name Poster" />
-                <span>@movie.Name</span>
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">
+                    <img src="~/images/posters/@(string.IsNullOrEmpty(movie.Profile.PosterUrl) ? "_no_poster.png" : movie.Profile.PosterUrl)" alt="@movie.Name Poster" />
+                </a>
+				<span>@movie.Name</span>
             </div>
             <div>@movie.Year</div>
             <div>@movie.Director?.FullName</div>

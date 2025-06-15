@@ -15,15 +15,36 @@ html {
 }
 /*Linklene þeylerde bunu kullancam*/
 .userlink {
-    color: white; 
+    color: white; /* istediðin renk */
     text-decoration: none;
     font-weight: bold;
     display: block;
 }
 
-    .userlink:hover {
-        color: #ff7f50; 
-        text-decoration:blink;
+.userlink:hover {
+    color: #ff7f50; /* hover efekti */
+    text-decoration: underline;
+}
+
+/*admin dashboarddaki navmenulink*/
+.admin-navmenulink {
+    color: #6643b5; /* açýk mor-siyah */
+    text-decoration: none;
+    text-transform:uppercase;
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding:1rem;
+    margin-right:10px;
+    margin-top:10px;
+    border-bottom: 1px groove #430f58;
+    border-top: 1px groove #430f58;
+    border-left: 1px groove #430f58;
+    border-right: 1px groove #430f58;
+}
+    .admin-navmenulink:hover {
+        color: #6643b5; /* koyu mor */
+        font-size: 1.6rem; /* hover efekti */
+        background-color:blanchedalmond;
     }
 
 
