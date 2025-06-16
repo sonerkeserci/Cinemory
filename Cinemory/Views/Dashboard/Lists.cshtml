@@ -1,5 +1,41 @@
 ﻿
+@model IEnumerable<Cinemory.Models.ViewModels.WatchlistPreviewModel>
+
 
 <h2 class="specialheader">All Watchlists</h2>
 
+<div class="movielist-header">
+	<div>List Owner</div>
+	<div>Preview</div>
+	<div>Total Movies</div>
+</div>
 
+<div class="movielist-table">
+	@foreach (var wl in Model)
+	{
+		<div class="movielist-row">
+			<!-- Sütun 1: Watchlist name -->
+			<div>
+				<a asp-controller="UserProfile" asp-action="UserProfileIndex" asp-route-id="@wl.UserId" class="text-decoration-none" style="color: #d0bce2;">
+					@wl.UserName
+				</a>
+			</div>
+
+			<!-- Sütun 2: Preview posterler -->
+			<div class="movielist-poster-info">
+				@foreach (var movie in wl.PreviewMovies)
+				{
+					<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">
+						<img src="/images/posters/@(movie.Profile?.PosterUrl ?? "_no_poster.png")" alt="@movie.Name poster" />
+					</a>
+				}
+			</div>
+
+			<!-- Sütun 3: Total + See All -->
+			<div>
+				<span>@wl.TotalMovies</span><br />
+				<a asp-controller="UserProfile" asp-action="UserWatchlist" asp-route-id="@wl.UserId" class="movielist-actions" style="font-size: 12px; text-decoration:none">See all...</a>
+			</div>
+		</div>
+	}
+</div>
