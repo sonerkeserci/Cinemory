@@ -2,6 +2,7 @@ using Cinemory.Data;
 using Cinemory.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Cinemory.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Accounts/Login"; // modal deðil ama tanýmlý gibi dursun
+    options.LoginPath = "/Accounts/Login"; // modal deï¿½il ama tanï¿½mlï¿½ gibi dursun
     options.AccessDeniedPath = "/Accounts/AccessDenied";
 });
 
@@ -30,6 +31,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddDbContext<CinemoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<MovieRecommendationService>();
 
 var app = builder.Build();
 
